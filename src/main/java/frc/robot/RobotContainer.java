@@ -20,18 +20,10 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import frc.robot.commands.*;
 import frc.robot.commands.autonomousCommands.*;
-import frc.robot.subsystems.Conveyor;
-// import frc.robot.commands.SmallJoystickElevator;
-// import frc.robot.commands.XboxJoystickElevator;
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.LimeLight;
-import frc.robot.subsystems.Pixy;
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.subsystems.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -51,6 +43,7 @@ public class RobotContainer {
   private final Pixy m_pixy = new Pixy();
   private final Shooter m_shooter = new Shooter();
   private final Conveyor m_conveyor = new Conveyor();
+  private final Revolver m_revolver = new Revolver();
 
   // -------------------- Joysticks and Buttons -------------------- \\
   //Joysticks
@@ -93,6 +86,7 @@ public class RobotContainer {
   private final LineUp lineUp = new LineUp(m_driveTrain, limeLightSub, elevatorSub);
   private final TestPixy pixy = new TestPixy(m_pixy);
   private final ToggleLimeLightLED toggleLED = new ToggleLimeLightLED(limeLightSub);
+  private final TurnRevolver turnRevolver = new TurnRevolver();
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -117,6 +111,7 @@ public class RobotContainer {
     Button7.whenPressed(new InstantCommand(m_conveyor::stopIntake, m_conveyor));
     Button9.whenPressed(new InstantCommand(m_shooter::stopFW, m_shooter));
     Button10.whenPressed(new InstantCommand(m_shooter::startFW, m_shooter));
+    Button999.whileHeld(new TurnRevolver()); //? Figure out what button we want to use for the revolver
   }
 
   /**

@@ -37,6 +37,9 @@ public final class Constants {
         LL, RL, LP, RP;
     }
 
+    //Revolver
+    public static final int motor_Revolver_Port = 999; //? Need to determine what port this will be
+
     //Shooter
     public static final int motor_Right_Flywheel_Port = 3;
     public static final int motor_Left_FlyWheel_Port = 4;
