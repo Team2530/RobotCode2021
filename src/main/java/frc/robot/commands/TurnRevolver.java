@@ -9,6 +9,7 @@ import frc.robot.subsystems.Revolver;
 
 public class TurnRevolver extends CommandBase {
   /** Creates a new TurnRevolver. */
+  Revolver m_revolver;
   public TurnRevolver(Revolver m_revolver) {
     this.m_revolver = m_revolver;
 
