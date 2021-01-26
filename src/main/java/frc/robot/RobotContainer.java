@@ -86,7 +86,7 @@ public class RobotContainer {
   private final LineUp lineUp = new LineUp(m_driveTrain, limeLightSub, elevatorSub);
   private final TestPixy pixy = new TestPixy(m_pixy);
   private final ToggleLimeLightLED toggleLED = new ToggleLimeLightLED(limeLightSub);
-  private final TurnRevolver turnRevolver = new TurnRevolver();
+  private final TurnRevolver turnRevolver = new TurnRevolver(m_revolver);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */

@@ -9,14 +9,17 @@ import frc.robot.subsystems.Revolver;
 
 public class TurnRevolver extends CommandBase {
   /** Creates a new TurnRevolver. */
-  public TurnRevolver() {
+  public TurnRevolver(Revolver m_revolver) {
+    this.m_revolver = m_revolver;
+
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_revolver);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    setRevolverSpeed(1);
+    m_revolver.setRevolverSpeed(1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -26,7 +29,7 @@ public class TurnRevolver extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    setRevolverSpeed(0);
+    m_revolver.setRevolverSpeed(0);
   }
 
   // Returns true when the command should end.
