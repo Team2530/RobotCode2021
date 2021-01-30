@@ -111,7 +111,7 @@ public class RobotContainer {
     Button7.whenPressed(new InstantCommand(m_conveyor::stopIntake, m_conveyor));
     Button9.whenPressed(new InstantCommand(m_shooter::stopFW, m_shooter));
     Button10.whenPressed(new InstantCommand(m_shooter::startFW, m_shooter));
-    Button999.whileHeld(new TurnRevolver()); //? Figure out what button we want to use for the revolver
+    Button999.whileHeld(new TurnRevolver(m_revolver)); //? Figure out what button we want to use for the revolver
   }
 
   /**
