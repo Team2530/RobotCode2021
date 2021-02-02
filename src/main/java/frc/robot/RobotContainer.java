@@ -42,6 +42,7 @@ public class RobotContainer {
   private final LimeLight limeLightSub = new LimeLight();
   private final Pixy m_pixy = new Pixy();
   private final Shooter m_shooter = new Shooter();
+  private final Hood m_hood = new Hood();
   private final Conveyor m_conveyor = new Conveyor();
   private final Revolver m_revolver = new Revolver();
 
@@ -87,6 +88,7 @@ public class RobotContainer {
   private final TestPixy pixy = new TestPixy(m_pixy);
   private final ToggleLimeLightLED toggleLED = new ToggleLimeLightLED(limeLightSub);
   private final TurnRevolver turnRevolver = new TurnRevolver(m_revolver);
+  private final AimHood aimHood = new AimHood(m_hood);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -111,7 +113,9 @@ public class RobotContainer {
     Button7.whenPressed(new InstantCommand(m_conveyor::stopIntake, m_conveyor));
     Button9.whenPressed(new InstantCommand(m_shooter::stopFW, m_shooter));
     Button10.whenPressed(new InstantCommand(m_shooter::startFW, m_shooter));
-    Button999.whileHeld(new TurnRevolver(m_revolver)); //? Figure out what button we want to use for the revolver
+    Button999.whenPressed(new TurnRevolver(m_revolver)); //TODO Figure out what button we want to use for the revolver
+    Button998.whenPressed(new AimHood(m_hood, 0, 1)); //TODO Figure out what buttons we want to use for hood movement
+    Button997.whenPressed(new AimHood(m_hood, 0, -1));
   }
 
   /**
