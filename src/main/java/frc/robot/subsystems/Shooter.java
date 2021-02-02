@@ -8,7 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -17,8 +17,8 @@ public class Shooter extends SubsystemBase {
   /**
    * Creates a new Shooter.
    */
-  private static WPI_TalonSRX motor_Left_FlyWheel = new WPI_TalonSRX(Constants.motor_Left_FlyWheel_Port);
-  private static WPI_TalonSRX motor_Right_FlyWheel = new WPI_TalonSRX(Constants.motor_Right_Flywheel_Port);
+  private static WPI_TalonFX motor_Left_FlyWheel = new WPI_TalonFX(Constants.motor_Left_FlyWheel_Port);
+  private static WPI_TalonFX motor_Right_FlyWheel = new WPI_TalonFX(Constants.motor_Right_Flywheel_Port);
 
   private static double currentSpeed = 0;
 
