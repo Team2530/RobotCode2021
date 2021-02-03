@@ -15,15 +15,15 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import frc.robot.commands.*;
-import frc.robot.commands.autonomousCommands.*;
 import frc.robot.subsystems.*;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.InstantCommand;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -36,14 +36,9 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   // -------------------- Subsystems -------------------- \\
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+
   private final DriveTrain m_driveTrain = new DriveTrain();
-  private final Elevator elevatorSub = new Elevator();
-  private final LimeLight limeLightSub = new LimeLight();
-  private final Pixy m_pixy = new Pixy();
-  private final Shooter m_shooter = new Shooter();
   private final Hood m_hood = new Hood();
-  private final Conveyor m_conveyor = new Conveyor();
   private final Revolver m_revolver = new Revolver();
 
   // -------------------- Joysticks and Buttons -------------------- \\
@@ -53,6 +48,7 @@ public class RobotContainer {
 
   //Joystick buttons
   private final JoystickButton Button1 = new JoystickButton(stick1, 1); // Creates a new button for button 1 on stick1
+  private final JoystickButton Button2 = new JoystickButton(stick1, 2);
   private final JoystickButton Button3 = new JoystickButton(stick1, 3);
   private final JoystickButton Button4 = new JoystickButton(stick1, 4);
   private final JoystickButton Button5 = new JoystickButton(stick1, 5);
@@ -84,11 +80,7 @@ public class RobotContainer {
   // private final XboxJoystickElevator elevatorCommand = new XboxJoystickElevator(elevatorSub, xbox);
   // private final SmallJoystickElevator elevatorCommand = new SmallJoystickElevator(elevatorSub, stick1);
   // private final EncoderTest m_telopCommand = new EncoderTest(m_driveTrain);
-  private final LineUp lineUp = new LineUp(m_driveTrain, limeLightSub, elevatorSub);
-  private final TestPixy pixy = new TestPixy(m_pixy);
-  private final ToggleLimeLightLED toggleLED = new ToggleLimeLightLED(limeLightSub);
   private final TurnRevolver turnRevolver = new TurnRevolver(m_revolver);
-  private final AimHood aimHood = new AimHood(m_hood);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -104,18 +96,9 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    Button1.whileHeld(lineUp);
-    Button1.whenReleased(new LargeJoystickDrive(m_driveTrain, stick1));
-    Button3.whenPressed(toggleLED);
-    Button5.whenPressed(new LocateBall(m_driveTrain, m_pixy, m_shooter));
-    Button4.whenPressed(new InstantCommand(m_conveyor::in, m_conveyor));
-    Button6.whenPressed(new InstantCommand(m_conveyor::out, m_conveyor));
-    Button7.whenPressed(new InstantCommand(m_conveyor::stopIntake, m_conveyor));
-    Button9.whenPressed(new InstantCommand(m_shooter::stopFW, m_shooter));
-    Button10.whenPressed(new InstantCommand(m_shooter::startFW, m_shooter));
-    Button999.whenPressed(new TurnRevolver(m_revolver)); //TODO Figure out what button we want to use for the revolver
-    Button998.whenPressed(new AimHood(m_hood, 0, 1)); //TODO Figure out what buttons we want to use for hood movement
-    Button997.whenPressed(new AimHood(m_hood, 0, -1));
+    Button1.whenPressed(new TurnRevolver(m_revolver)); //TODO Figure out what button we want to use for the revolver
+    Button2.whenPressed(new AimHood(m_hood,  1)); //TODO Figure out what buttons we want to use for hood movement
+    Button3.whenPressed(new AimHood(m_hood, -1));
   }
 
   /**
@@ -133,11 +116,11 @@ public class RobotContainer {
     //   DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
     // }
 
-    return lineUp;
+    return null;
   }
 
   public Command getTelopCommand() {
-    return new LargeJoystickDrive(m_driveTrain, stick1);
+    return null;
   }
 
 }

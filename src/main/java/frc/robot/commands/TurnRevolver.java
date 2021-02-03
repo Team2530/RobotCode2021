@@ -4,17 +4,17 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Revolver;
 
-public class TurnRevolver extends CommandBase {
+public class TurnRevolver extends Command{
   /** Creates a new TurnRevolver. */
   Revolver m_revolver;
   public TurnRevolver(Revolver m_revolver) {
     this.m_revolver = m_revolver;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_revolver);
+
   }
 
   // Called when the command is initially scheduled.
@@ -27,11 +27,6 @@ public class TurnRevolver extends CommandBase {
   @Override
   public void execute() {}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    m_revolver.setRevolverSpeed(0);
-  }
 
   // Returns true when the command should end.
   @Override

@@ -4,40 +4,31 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Hood;
 
-public class AimHood extends CommandBase {
+public class AimHood extends Command {
 
-  double horizontal;
   double vertical;
 
   /** Creates a new TurnHood. */
   Hood m_hood;
-  public AimHood(Hood m_hood, double horizontal, double vertical) {
+  public AimHood(Hood m_hood, double vertical) {
     this.m_hood = m_hood;
-    this.horizontal = horizontal;
     this.vertical = vertical;
 
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_hood);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_hood.hoodRotateSpeed(horizontal, vertical);
+    m_hood.hoodRotateSpeed( vertical);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    m_hood.hoodRotateSpeed(0, 0);
-  }
 
   // Returns true when the command should end.
   @Override
