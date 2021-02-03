@@ -5,22 +5,24 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Revolver;
+import frc.robot.subsystems.Hood;
 
-public class TurnRevolver extends Command{
-  /** Creates a new TurnRevolver. */
-  Revolver m_revolver;
-  public TurnRevolver(Revolver m_revolver) {
-    this.m_revolver = m_revolver;
+public class AimHood extends Command {
 
-    // Use addRequirements() here to declare subsystem dependencies.
+  double vertical;
+
+  /** Creates a new TurnHood. */
+  Hood m_hood;
+  public AimHood(Hood m_hood, double vertical) {
+    this.m_hood = m_hood;
+    this.vertical = vertical;
 
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_revolver.setRevolverSpeed(1);
+    m_hood.hoodRotateSpeed( vertical);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
