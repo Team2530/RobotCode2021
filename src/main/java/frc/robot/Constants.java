@@ -45,6 +45,7 @@ public final class Constants {
     public static final int motor_Left_FlyWheel_Port = 4;
     public static final int motor_HorizontalHood_Port = 998; //TODO Need to determine what port this will be
     public static final int motor_VerticalHood_Port = 997; //TODO Need to determine what port this will be
+    public static final int motor_Shooter_Port = 996; //TODO Need to determine what port this will be
 
 
     //Left Conveyor
