@@ -99,6 +99,7 @@ public class RobotContainer {
     Button1.whenPressed(new TurnRevolver(m_revolver)); //TODO Figure out what button we want to use for the revolver
     Button2.whenPressed(new AimHood(m_hood,  1)); //TODO Figure out what buttons we want to use for hood movement
     Button3.whenPressed(new AimHood(m_hood, -1));
+    Button4.whenPressed(new FireShooter(m_hood, 1)); // Why does this work everywhere else but not here?
   }
 
   /**

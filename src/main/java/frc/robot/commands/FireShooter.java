@@ -4,23 +4,24 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Revolver;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Hood;
 
-public class TurnRevolver extends Command{
-  /** Creates a new TurnRevolver. */
-  Revolver m_revolver;
-  public TurnRevolver(Revolver m_revolver) {
-    this.m_revolver = m_revolver;
+public class FireShooter extends CommandBase {
+  /** Creates a new FireShooter. */
+  Hood m_hood;
+  double speed;
+  public FireShooter(Hood m_hood, double speed) {
+    this.m_hood = m_hood;
+    this.speed = speed;
 
     // Use addRequirements() here to declare subsystem dependencies.
-
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_revolver.setRevolverSpeed(1);
+    m_hood.flywheelRotateSpeed(speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -29,10 +30,9 @@ public class TurnRevolver extends Command{
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) { // Aaaaa why does it work everywhere else
-    m_revolver.setRevolverSpeed(0);
+  public void end(boolean interrupted) {
+    m_hood.flywheelRotateSpeed(0);
   }
-
 
   // Returns true when the command should end.
   @Override

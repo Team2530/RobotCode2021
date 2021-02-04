@@ -22,13 +22,17 @@ public class Hood extends SubsystemBase {
 
   @Override
   public void periodic() {
-    speed = motor_Shooter.getSelectedSensorVelocity();
+    speed = ((motor_Shooter.getSelectedSensorVelocity() * 10 / Constants.ENCODER_TICKS_PER_REVOLUTION) * 2 * Math.PI * Constants.SHOOTER_WHEEL_RADIUS / 100) / Constants.MAX_SHOOTING_VELOCITY;// % of shooting capacity
     // This method will be called once per scheduler run
   }
 
   public void hoodRotateSpeed(double vertical) {
     //motor_HorizontalHood.set(horizontal);
     motor_VerticalHood.set(vertical);
+  }
+
+  public void flywheelRotateSpeed(double f_speed) {
+    motor_Shooter.set(f_speed * (f_speed / speed));
   }
 
 }
