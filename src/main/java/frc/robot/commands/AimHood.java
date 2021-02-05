@@ -22,7 +22,8 @@ public class AimHood extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_hood.hoodRotateSpeed( vertical);
+    m_hood.autoAimHood(200); //TODO: Plug in Limelight distance calculation here
+    //m_hood.hoodRotateSpeed(vertical);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

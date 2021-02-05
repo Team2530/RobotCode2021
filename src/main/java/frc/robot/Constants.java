@@ -29,14 +29,6 @@ public final class Constants {
         FL, FR, BL, BR; 
     } 
 
-    //Elevator Motors
-    public static final int motor_Left_Leadscrew_Port = 4;
-    public static final int motor_Right_Leadscrew_Port = 3;
-    public enum ElevatorMotors
-    {
-        LL, RL, LP, RP;
-    }
-
     //Revolver
     public static final int motor_Revolver_Port = 999; //TODO Need to determine what port this will be
 
@@ -47,35 +39,12 @@ public final class Constants {
     public static final int motor_VerticalHood_Port = 997; //TODO Need to determine what port this will be
     public static final int motor_Shooter_Port = 996; //TODO Need to determine what port this will be
 
-
-    //Left Conveyor
-    public static final int motor_Conveyor_Port = 2;
-    
-    //Right Conveyor
-    public static final int motor_Conveyor_Port1 = 10; 
-
-
     //--------------------Sensor Ports--------------------\\
     //DriveTrain Encoders
     public static final int[] encoder_Left_Ports = {0,1}; 
     public static final int[] encoder_Right_Ports = {2,3};
 
     //!!!!!!!!!!!!!!!!!!!!!!Encoders plug into SRX, figure out how to read
-
-    //Elevator Encoders
-    // public static final int[] encoder_Left_Leadscrew_Ports = {5,6}; 
-    // public static final int[] encoder_Right_Leadscrew_Ports = {7,8};
-
-    //Elevator Limit Switches
-    public static final int limit_Switch_Left_Leadscrew_Port = 5;
-    public static final int limit_Switch_Right_Leadscrew_Port = 6;
-
-    public static final int limit_Switch_Left_Pulley_Port = 7;
-    public static final int limit_Switch_Right_Pulley_Port = 8;
-    public enum ElevatorLimitSwitches 
-    {
-        LL, RL, LP, RP; //? or we could just use elevatorMotors enum.
-    }
 
     //Shooter
     public static final int[] encoder_Left_Flywheel_Ports = {9,10}; 
@@ -85,9 +54,10 @@ public final class Constants {
     public static final int ENCODER_TICKS_PER_REVOLUTION = 1024;
     public static final int gyroDrift = 5;
     public static final double sensor_Limelight_Height = 25;//? mounting height in inches
+    public static final double HOOD_GEAR_RATIO = 11/72; //TODO: I based this off of the gear tooth ratios, but don't know if that's right
 
     //----------Driving Constants----------\\
-    public static final double GEAR_RATIO = 1; //?This ratio is the ratio between the encoder and the driven wheels
+    public static final double DRIVE_GEAR_RATIO = 1; //?This ratio is the ratio between the encoder and the driven wheels
     public static final double WHEEL_RADIUS = 6*2.54; //!Not diameter radius
     public static final double DISTANCE_PER_PULSE = Constants.ENCODER_TICKS_PER_REVOLUTION * Math.PI * Math.pow(Constants.WHEEL_RADIUS, 2);
     public static final double kRamseteB = 0;//! Not calculated
@@ -112,18 +82,21 @@ public final class Constants {
 
     //----------Field Constants----------\\
     public static final double target_Height = 105*2.54; //temp test value
-    public static final double ball_Weight = 0.3125;
+    public static final double ball_Weight = 0.3125;//? pounds?
 
     
     //----------Control (Joystick) Constants----------\\
     public static final double deadzone = 0.1;
 
     //----------Control (Shooting) Constants----------\\
+    public static final double SHOOTER_HEIGHT = 20*2.54;//from floor to center of opening, in cm. TODO: Get better measurement
     public static final float I = 1;//?moment of inertia
     public static final double SHOOTER_WHEEL_RADIUS = 6*2.54;//cm
     public static final double eff = 0.8;//?effective efficiency percentage
     public static final int MAX_SHOOTING_DISTANCE = 254;//cm
     public static final int MAX_SHOOTING_VELOCITY = 20;//meters per sec.
+    public static final int MIN_SHOOTING_ANGLE = 0;//degrees
+    public static final int MAX_SHOOTING_ANGLE = 30;//degrees
     public static final int IDEAL_SHOOTING_DISTANCE = 190;//cm
     public static final double distanceTolerance = 10; //cm
     public static final double angleTolerance = 10; //degrees
@@ -136,6 +109,6 @@ public final class Constants {
     public static final double maxHeight = 18.54717*2.54; //cm
     public static final double minAngle = -32; //degrees
     public static final double minHeight = -29.68168*2.54; //cm
-	public static final double gravity = -9.8;//meters per second
+	public static final double gravity = -9.81;//meters per second squared
 	public static final int DROP_IN_DISTANCE_PER_REVOLUTION = 0;
 }
