@@ -18,6 +18,7 @@ public class LimeLight extends SubsystemBase {
   double ta;
   NetworkTable table;
   int light = 1;
+  boolean limelightDriveCamOn = true;
 
   public LimeLight() {
     table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -60,5 +61,14 @@ public class LimeLight extends SubsystemBase {
     }
     
     table.getEntry("ledMode").setNumber(light);
+  }
+
+  public void switchCamera() {
+    if (limelightDriveCamOn == true) {
+      table.getEntry("camMode").setNumber(0);
+    } else {
+      table.getEntry("pipeline").setNumber(1);
+      table.getEntry("camMode").setNumber(1);
+    }
   }
 }
