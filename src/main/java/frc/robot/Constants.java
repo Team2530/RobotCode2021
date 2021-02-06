@@ -81,7 +81,7 @@ public final class Constants {
     public static final double maxAccelerationMetersPerSecondSq = 1; //!This needs to be set
 
     //----------Field Constants----------\\
-    public static final double target_Height = 105*2.54; //temp test value
+    public static final double target_Height = 105*2.54/100; //temp test value (in meters)
     public static final double ball_Weight = 0.3125;//? pounds?
 
     
@@ -89,11 +89,11 @@ public final class Constants {
     public static final double deadzone = 0.1;
 
     //----------Control (Shooting) Constants----------\\
-    public static final double SHOOTER_HEIGHT = 20*2.54;//from floor to center of opening, in cm. TODO: Get better measurement
+    public static final double SHOOTER_HEIGHT = 20*2.54/100;//from floor to center of opening, in meters. TODO: Get better measurement
     public static final float I = 1;//?moment of inertia
     public static final double SHOOTER_WHEEL_RADIUS = 6*2.54;//cm
     public static final double eff = 0.8;//?effective efficiency percentage
-    public static final int MAX_SHOOTING_DISTANCE = 254;//cm
+    public static final double MAX_SHOOTING_DISTANCE = 2.54;//meters
     public static final int MAX_SHOOTING_VELOCITY = 20;//meters per sec.
     public static final int MIN_SHOOTING_ANGLE = 0;//degrees
     public static final int MAX_SHOOTING_ANGLE = 30;//degrees

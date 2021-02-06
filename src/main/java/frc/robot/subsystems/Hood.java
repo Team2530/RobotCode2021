@@ -18,6 +18,11 @@ public class Hood extends SubsystemBase {
   /** Creates a new Hood. */
   double flywheelSpeed;
   double hoodPosition = 0; //TODO: Make more reliable method of measurement
+  double angleCalc;
+  double velocityX;
+  double velocityY;
+  double timeCalc;
+  double aimHeightCalc;
   public double hoodTargetAngle = 0;
   public Hood() {
   }
@@ -38,8 +43,13 @@ public class Hood extends SubsystemBase {
     motor_VerticalHood.set(vertical);
   }
 
-  public void autoAimHood (double distance) {
-    moveHoodToAngle(Math.atan((Constants.target_Height - Constants.SHOOTER_HEIGHT) / distance)); //Assuming that gravity has a negligible effect
+  public void autoAimHood (double distance) { //! everything must stay in meters
+    angleCalc = Math.atan((Constants.target_Height - Constants.SHOOTER_HEIGHT) / distance);
+    velocityX = flywheelSpeed * Constants.MAX_SHOOTING_VELOCITY * Math.cos(angleCalc);
+    velocityY = flywheelSpeed * Constants.MAX_SHOOTING_VELOCITY * Math.sin(angleCalc);
+    timeCalc = distance / velocityX;
+    aimHeightCalc = (velocityY * timeCalc) + (0.5 * Constants.gravity * Math.pow(timeCalc, 2));
+    moveHoodToAngle(Math.atan((2 * Constants.target_Height - aimHeightCalc) / distance));
   }
 
   public void moveHoodToAngle(double angle) {
