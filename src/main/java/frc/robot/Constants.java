@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import frc.robot.libraries.Gains;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
@@ -22,7 +24,7 @@ public final class Constants {
     //ports set up for test drivetrain currently
     public static final int motor_Front_Left_Port = 1; 
     public static final int motor_Back_Left_Port = 0;
-    public static final int motor_Back_Right_Port = 2; //? 2 motors driving one wheel on each side, i think
+    public static final int motor_Back_Right_Port = 2; 
     public static final int motor_Front_Right_Port = 5;
     public enum DriveMotors
     { 
@@ -33,11 +35,10 @@ public final class Constants {
     public static final int motor_Revolver_Port = 999; //TODO Need to determine what port this will be
 
     //Shooter
-    public static final int motor_Right_Flywheel_Port = 3;
-    public static final int motor_Left_FlyWheel_Port = 4;
     public static final int motor_HorizontalHood_Port = 998; //TODO Need to determine what port this will be
     public static final int motor_VerticalHood_Port = 997; //TODO Need to determine what port this will be
     public static final int motor_Shooter_Port = 996; //TODO Need to determine what port this will be
+    public static final Gains motor_Shooter = new Gains( 0.1, 0.001, 5, 1023.0/20660.0,  300,  1.00);
 
     //--------------------Sensor Ports--------------------\\
     //DriveTrain Encoders
@@ -55,7 +56,10 @@ public final class Constants {
     public static final int gyroDrift = 5;
     public static final double sensor_Limelight_Height = 25;//? mounting height in inches
     public static final double HOOD_GEAR_RATIO = 11/72; //TODO: I based this off of the gear tooth ratios, but don't know if that's right
-
+    public static final int kSlotIdx = 0;
+	public static final int kPIDLoopIdx = 0;
+    public static final int kTimeoutMs = 30;
+    
     //----------Driving Constants----------\\
     public static final double DRIVE_GEAR_RATIO = 1; //?This ratio is the ratio between the encoder and the driven wheels
     public static final double WHEEL_RADIUS = 6*2.54; //!Not diameter radius
@@ -68,11 +72,6 @@ public final class Constants {
     public static final double MAX_DRIVE_SPEED = 10;//Need this in m/s
     public static final double MAX_ANGULAR_SPEED = 0.5;//Need this in rad/s
     
-    public static final double kP = .000122;
-    public static final double kI = 0;
-    public static final double kD = 0;
-    public static final double kS = 1.22;
-    public static final double kV = 0.00305;
 
     public static final double tol = 5;
     public static final int setPoint = 1;

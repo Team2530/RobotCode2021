@@ -3,9 +3,11 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+
 import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
@@ -25,6 +27,27 @@ public class Hood extends SubsystemBase {
   double aimHeightCalc;
   public double hoodTargetAngle = 0;
   public Hood() {
+    /* Factory Default all hardware to prevent unexpected behaviour */
+		motor_Shooter.configFactoryDefault();
+		
+		/* Config neutral deadband to be the smallest possible */
+		motor_Shooter.configNeutralDeadband(0.001);
+
+		/* Config sensor used for Primary PID [Velocity] */
+    motor_Shooter.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+											
+
+		/* Config the peak and nominal outputs */
+		motor_Shooter.configNominalOutputForward(0, Constants.kTimeoutMs);
+		motor_Shooter.configNominalOutputReverse(0, Constants.kTimeoutMs);
+		motor_Shooter.configPeakOutputForward(1, Constants.kTimeoutMs);
+		motor_Shooter.configPeakOutputReverse(-1, Constants.kTimeoutMs);
+
+		/* Config the Velocity closed loop gains in slot0 */
+		motor_Shooter.config_kF(Constants.kPIDLoopIdx, Constants.motor_Shooter.kF, Constants.kTimeoutMs);
+		motor_Shooter.config_kP(Constants.kPIDLoopIdx, Constants.motor_Shooter.kP, Constants.kTimeoutMs);
+		motor_Shooter.config_kI(Constants.kPIDLoopIdx, Constants.motor_Shooter.kI, Constants.kTimeoutMs);
+		motor_Shooter.config_kD(Constants.kPIDLoopIdx, Constants.motor_Shooter.kD, Constants.kTimeoutMs);
   }
 
   @Override
@@ -51,7 +74,7 @@ public class Hood extends SubsystemBase {
     aimHeightCalc = (velocityY * timeCalc) + (0.5 * Constants.gravity * Math.pow(timeCalc, 2));
     moveHoodToAngle(Math.atan((2 * Constants.target_Height - aimHeightCalc) / distance));
   }
-
+  
   public void moveHoodToAngle(double angle) {
     hoodTargetAngle = angle;
     if (hoodTargetAngle < hoodPosition) {
@@ -62,7 +85,11 @@ public class Hood extends SubsystemBase {
   }
 
   public void flywheelRotateSpeed(double f_speed) {
+
     motor_Shooter.set(f_speed * (f_speed / flywheelSpeed));
+  }
+  public void flywheelSpeedSetPerecentOutput(double speed){
+    motor_Shooter.set(ControlMode.PercentOutput, speed);
   }
 
 }

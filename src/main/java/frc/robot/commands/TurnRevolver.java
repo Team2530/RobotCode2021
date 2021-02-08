@@ -4,10 +4,10 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Revolver;
 
-public class TurnRevolver extends Command{
+public class TurnRevolver extends CommandBase{
   /** Creates a new TurnRevolver. */
   Revolver m_revolver;
   public TurnRevolver(Revolver m_revolver) {
