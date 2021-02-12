@@ -53,7 +53,7 @@ public class Hood extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    flywheelSpeed = ((motor_Shooter.getSelectedSensorVelocity() * 10 / Constants.ENCODER_TICKS_PER_REVOLUTION) * 2 * Math.PI * Constants.SHOOTER_WHEEL_RADIUS / 100) / Constants.MAX_SHOOTING_VELOCITY;// % of shooting capacity
+    flywheelSpeed = motor_Shooter.getMotorOutputPercent();// % of shooting capacity
     hoodPosition += (motor_VerticalHood.getSelectedSensorVelocity() / 5 / Constants.ENCODER_TICKS_PER_REVOLUTION) * Constants.HOOD_GEAR_RATIO * 360;//hood position in degrees
     if (hoodPosition < Constants.MIN_SHOOTING_ANGLE + 1 || hoodPosition > Constants.MAX_SHOOTING_ANGLE - 1 || (hoodPosition > hoodTargetAngle - 1 && hoodPosition < hoodTargetAngle + 1)) {
       motor_VerticalHood.set(0);
@@ -78,17 +78,16 @@ public class Hood extends SubsystemBase {
   public void moveHoodToAngle(double angle) {
     hoodTargetAngle = angle;
     if (hoodTargetAngle < hoodPosition) {
-      hoodRotateSpeed(-1);
+      hoodRotateSpeed(-0.1);
     } else {
-      hoodRotateSpeed(1);
+      hoodRotateSpeed(0.1);
     }
   }
 
   public void flywheelRotateSpeed(double f_speed) {
-
-    motor_Shooter.set(f_speed * (f_speed / flywheelSpeed));
+    motor_Shooter.set(ControlMode.PercentOutput, f_speed);
   }
-  public void flywheelSpeedSetPerecentOutput(double speed){
+  public void flywheelSpeedSetPercentOutput(double speed){
     motor_Shooter.set(ControlMode.PercentOutput, speed);
   }
 
