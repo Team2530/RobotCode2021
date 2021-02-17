@@ -22,10 +22,8 @@ public final class Constants {
     //--------------------Motor Ports--------------------\\
     //DriveTrain Motors
     //ports set up for test drivetrain currently
-    public static final int motor_Front_Left_Port = 1; 
-    public static final int motor_Back_Left_Port = 0;
-    public static final int motor_Back_Right_Port = 2; 
-    public static final int motor_Front_Right_Port = 5;
+    public static final int motor_left_drive_port = 0;
+	public static final int motor_right_drive_port = 1;
     public enum DriveMotors
     { 
         FL, FR, BL, BR; 
@@ -110,4 +108,5 @@ public final class Constants {
     public static final double minHeight = -29.68168*2.54; //cm
 	public static final double gravity = -9.81;//meters per second squared
 	public static final int DROP_IN_DISTANCE_PER_REVOLUTION = 0;
+
 }

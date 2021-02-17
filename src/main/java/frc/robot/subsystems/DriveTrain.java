@@ -27,31 +27,33 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 // import edu.wpi.first.wpilibj.controller.PIDController;
 
 import frc.robot.Constants;
-import frc.robot.Constants.*;
 
-import java.io.IOException;
-import java.nio.file.Path;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 // import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import com.kauailabs.navx.frc.AHRS;
+
 
 public class DriveTrain {
   // private static final Port i2c_port_id = null;
 
   // -------------------- Motors -------------------- \\
   // Left Motors
-  
-
+  WPI_TalonFX motor_left = new WPI_TalonFX(Constants.motor_left_drive_port);
+  WPI_TalonFX motor_right = new WPI_TalonFX(Constants.motor_right_drive_port);
+  DifferentialDrive differentialDrive = new DifferentialDrive(motor_left, motor_right);
   /**
    * Creates a new DriveTrain.
    */
   public DriveTrain() 
   {
-    
-    
-
+  motor_left.setInverted(false);
+  motor_right.setInverted(false);
   }
+  public void singleJoystickDrive(double x, double z){
+    differentialDrive.arcadeDrive(z, x);
+  }
+  public void stop(){
+    differentialDrive.stopMotor();
+  }
+
 
 }
