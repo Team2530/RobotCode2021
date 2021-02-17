@@ -54,6 +54,4 @@ public class DriveTrain {
   public void stop(){
     differentialDrive.stopMotor();
   }
-
-
 }
