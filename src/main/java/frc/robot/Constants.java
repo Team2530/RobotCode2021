@@ -28,27 +28,6 @@ public final class Constants {
     { 
         FL, FR, BL, BR; 
     } 
-
-    //Revolver
-    public static final int motor_Revolver_Port = 999; //TODO Need to determine what port this will be
-
-    //Shooter
-    public static final int motor_HorizontalHood_Port = 998; //TODO Need to determine what port this will be
-    public static final int motor_VerticalHood_Port = 997; //TODO Need to determine what port this will be
-    public static final int motor_Shooter_Port = 996; //TODO Need to determine what port this will be
-    public static final Gains motor_Shooter = new Gains( 0.1, 0.001, 5, 1023.0/20660.0,  300,  1.00);
-
-    //--------------------Sensor Ports--------------------\\
-    //DriveTrain Encoders
-    public static final int[] encoder_Left_Ports = {0,1}; 
-    public static final int[] encoder_Right_Ports = {2,3};
-
-    //!!!!!!!!!!!!!!!!!!!!!!Encoders plug into SRX, figure out how to read
-
-    //Shooter
-    public static final int[] encoder_Left_Flywheel_Ports = {9,10}; 
-    public static final int[] encoder_Right_Flywheel_Port = {11,12};
-
     //----------Sensor Constants-----------\\
     public static final int ENCODER_TICKS_PER_REVOLUTION = 1024;
     public static final int gyroDrift = 5;

@@ -31,13 +31,10 @@ public class RobotContainer {
   // -------------------- Subsystems -------------------- \\
 
   private final DriveTrain m_driveTrain = new DriveTrain();
-  private final Hood m_hood = new Hood();
-  private final Revolver m_revolver = new Revolver();
 
   // -------------------- Joysticks and Buttons -------------------- \\
   //Joysticks
-  final Joystick stick1 = new Joystick(1); // Creates a joystick on port 1
-  final Joystick stick2 = new Joystick(2); // Creates a joystick on port 2
+  final Joystick stick1 = new Joystick(0); // Creates a joystick on port 0
 
   //Joystick buttons
   private final JoystickButton Button1 = new JoystickButton(stick1, 1); // Creates a new button for button 1 on stick1
@@ -73,7 +70,6 @@ public class RobotContainer {
   // private final XboxJoystickElevator elevatorCommand = new XboxJoystickElevator(elevatorSub, xbox);
   // private final SmallJoystickElevator elevatorCommand = new SmallJoystickElevator(elevatorSub, stick1);
   // private final EncoderTest m_telopCommand = new EncoderTest(m_driveTrain);
-  private final TurnRevolver turnRevolver = new TurnRevolver(m_revolver);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -89,10 +85,7 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    Button1.whenPressed(new TurnRevolver(m_revolver)); //TODO Figure out what button we want to use for the revolver
-    Button2.whenPressed(new AimHood(m_hood,  1)); //TODO Figure out what buttons we want to use for hood movement
-    Button3.whenPressed(new AimHood(m_hood, -1));
-    Button4.whenPressed(new FireShooter(m_hood, 1)); // Why does this work everywhere else but not here?
+  
   }
 
   /**

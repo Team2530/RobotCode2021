@@ -49,7 +49,7 @@ public class DriveTrain {
   motor_right.setInverted(false);
   }
   public void singleJoystickDrive(double x, double z){
-    differentialDrive.arcadeDrive(z, x);
+    differentialDrive.arcadeDrive(x, z);
   }
   public void stop(){
     differentialDrive.stopMotor();
