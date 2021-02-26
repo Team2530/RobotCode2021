@@ -57,12 +57,16 @@ public class DriveTrain {
     m_odometry.update(null, motor_left.getDistance(), motor_right.getDistance());
   }
 
-  public void followTrajectory() {
-    String trajectoryJSON = "paths/Barrel.wpilib.json"; //The "barrel racing path" in the AutoNav challenge
+  public void followTrajectory(String pathName) {
+    //Possible values:
+    //"Barrel" = The "barrel racing path" in the AutoNav challenge
+    String trajectoryJSON = "paths/" + pathName + ".wpilib.json";
     Trajectory trajectory = new Trajectory();
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
       trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+
+      System.out.println("Path opened successfully -- the robot would normally be doing autonomous right now");//TODO: Connect trajectory to motors
       
     } catch (IOException ex) {
       DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());

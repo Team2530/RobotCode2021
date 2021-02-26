@@ -110,7 +110,7 @@ public class RobotContainer {
     //   DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
     // }
 
-    return null;
+    return new DoAutoNav(m_driveTrain, "Barrel");
   }
 
   public Command getTelopCommand() {
