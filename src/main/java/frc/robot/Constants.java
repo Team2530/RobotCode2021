@@ -41,9 +41,9 @@ public final class Constants {
     public static final double DRIVE_GEAR_RATIO = 1; //?This ratio is the ratio between the encoder and the driven wheels
     public static final double WHEEL_RADIUS = 6*2.54; //!Not diameter radius
     public static final double DISTANCE_PER_PULSE = Constants.ENCODER_TICKS_PER_REVOLUTION * Math.PI * Math.pow(Constants.WHEEL_RADIUS, 2);
-    public static final double kS = 1;
-    public static final double kV = 1;
-    public static final double kA = 1;
+    public static final double kS = 0.761;
+    public static final double kV = 0.0631;
+    public static final double kA = 0.0095;
     public static final double kRamseteB = 0;//! Not calculated
     public static final double kRamseteZeta = 0;//! Not calculated
     public static final double kMaxSpeed = 0;
@@ -52,7 +52,7 @@ public final class Constants {
     public static final Gains PIDrigthDrive = new Gains(1, 0, 0, 0, 0, 0);
 
     //public static final double ALIGN = 0.025;
-    public static final double WHEEL_DISTANCE = 19.595;//In inches
+    public static final double WHEEL_DISTANCE = 13.35;
     public static final double MAX_DRIVE_SPEED = 10;//Need this in m/s
     public static final double MAX_ANGULAR_SPEED = 0.5;//Need this in rad/s
     

@@ -76,7 +76,7 @@ public class DriveTrain {
     differentialDrive.arcadeDrive(x, z);
   }
   public void singleJoystickDrivePID(double x, double z){
-    var wheelSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(m_speedLimiter.calculate(x) * Constants.kMaxSpeed, 0.0, m_rotLimiter.calculate(z* Constants.kMaxAngularSpeed);
+    var wheelSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(m_speedLimiter.calculate(x) * Constants.kMaxSpeed, 0.0, m_rotLimiter.calculate(z* Constants.kMaxAngularSpeed)));
     setSpeeds(wheelSpeeds);
   }
   public void stop(){
