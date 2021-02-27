@@ -48,8 +48,8 @@ public final class Constants {
     public static final double kRamseteZeta = 0;//! Not calculated
     public static final double kMaxSpeed = 0;
     public static final double kMaxAngularSpeed = 0;
-    public static final Gains PIDleftDrive = new Gains(1, 0, 0, 0, 0, 0);
-    public static final Gains PIDrigthDrive = new Gains(1, 0, 0, 0, 0, 0);
+    public static final Gains PIDleftDrive = new Gains(0.439, 0, 0, 0, 0, 0);
+    public static final Gains PIDrigthDrive = new Gains(0.439, 0, 0, 0, 0, 0);
 
     //public static final double ALIGN = 0.025;
     public static final double WHEEL_DISTANCE = 13.35;
