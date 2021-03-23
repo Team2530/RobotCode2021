@@ -22,8 +22,10 @@ public final class Constants {
     //--------------------Motor Ports--------------------\\
     //DriveTrain Motors
     //ports set up for test drivetrain currently
-    public static final int motor_left_drive_port = 0;
-	public static final int motor_right_drive_port = 1;
+    public static final int motor_left_drive_port = 1;
+    public static final int motor_right_drive_port = 2;
+    public static final int motor_revolver_port = 4;
+    public static final int motor_shooter_port = 3;
     public enum DriveMotors
     { 
         FL, FR, BL, BR; 
@@ -46,10 +48,10 @@ public final class Constants {
     public static final double kA = 0.0095;
     public static final double kRamseteB = 0;//! Not calculated
     public static final double kRamseteZeta = 0;//! Not calculated
-    public static final double kMaxSpeed = 0;
+    public static final double kMaxSpeed = 100;
     public static final double kMaxAngularSpeed = 0;
-    public static final Gains PIDleftDrive = new Gains(1, 0, 0, 0, 0, 0);
-    public static final Gains PIDrigthDrive = new Gains(1, 0, 0, 0, 0, 0);
+    public static final Gains PIDleftDrive = new Gains(0.439/2, 0, 0, 0, 0, 1);
+    public static final Gains PIDrigthDrive = new Gains(0.439/2, 0, 0, 0, 0, 1);
 
     //public static final double ALIGN = 0.025;
     public static final double WHEEL_DISTANCE = 13.35;

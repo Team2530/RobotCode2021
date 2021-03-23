@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 
 
@@ -32,16 +33,17 @@ public class RobotContainer {
 
   private final DriveTrain m_driveTrain = new DriveTrain();
 
+
   // -------------------- Joysticks and Buttons -------------------- \\
   //Joysticks
   final Joystick stick1 = new Joystick(0); // Creates a joystick on port 0
 
   //Joystick buttons
-  private final JoystickButton Button1 = new JoystickButton(stick1, 1); // Creates a new button for button 1 on stick1
-  private final JoystickButton Button2 = new JoystickButton(stick1, 2);
-  private final JoystickButton Button3 = new JoystickButton(stick1, 3);
-  private final JoystickButton Button4 = new JoystickButton(stick1, 4);
-  private final JoystickButton Button5 = new JoystickButton(stick1, 5);
+  private final JoystickButton button1 = new JoystickButton(stick1, 1); // Creates a new button for button 1 on stick1
+  private final JoystickButton button2 = new JoystickButton(stick1, 2);
+  private final JoystickButton button3 = new JoystickButton(stick1, 3);
+  private final JoystickButton button4 = new JoystickButton(stick1, 4);
+  private final JoystickButton button5 = new JoystickButton(stick1, 5);
   private final JoystickButton Button6 = new JoystickButton(stick1, 6);
   private final JoystickButton Button7 = new JoystickButton(stick1, 7);
   private final JoystickButton Button9 = new JoystickButton(stick1, 9);
@@ -85,9 +87,9 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-  
+    button3.whenPressed(new InstantCommand(m_driveTrain::setServoMax, m_driveTrain));
+    button4.whenPressed(new InstantCommand(m_driveTrain::setServoMin, m_driveTrain));
   }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -107,7 +109,7 @@ public class RobotContainer {
   }
 
   public Command getTelopCommand() {
-    return new SingleJoystickDrive(m_driveTrain, stick1);
+    return null;
   }
 
 }
