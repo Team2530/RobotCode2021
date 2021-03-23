@@ -49,7 +49,7 @@ public class DriveTrain extends SubsystemBase{
   WPI_TalonFX motor_right = new WPI_TalonFX(Constants.motor_right_drive_port);
   WPI_TalonSRX motor_temp = new WPI_TalonSRX(Constants.motor_revolver_port);
   AHRS ahrs = new AHRS();
-  Servo servo = new Servo(0);
+
 
   DifferentialDrive differentialDrive;
   DifferentialDriveKinematics m_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(Constants.WHEEL_DISTANCE));//#distance betweeen drive train in cm
@@ -130,13 +130,6 @@ public class DriveTrain extends SubsystemBase{
   }
   public double getRightEncoderRate(){
     return motor_right.getSelectedSensorVelocity();
-  }
-  public void setServoMin(){
-    servo.setPosition(0.78);
-    
-  }
-  public void setServoMax(){
-    servo.setPosition(1);
   }
 
 }

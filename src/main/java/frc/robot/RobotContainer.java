@@ -7,16 +7,22 @@
 
 package frc.robot;
 
+import java.io.IOException;
+import java.nio.file.Path;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 
 /**
@@ -32,18 +38,20 @@ public class RobotContainer {
   // -------------------- Subsystems -------------------- \\
 
   private final DriveTrain m_driveTrain = new DriveTrain();
-
+  private final Hood m_hood = new Hood();
+  private final Revolver m_revolver = new Revolver();
 
   // -------------------- Joysticks and Buttons -------------------- \\
   //Joysticks
-  final Joystick stick1 = new Joystick(0); // Creates a joystick on port 0
+  final Joystick stick1 = new Joystick(1); // Creates a joystick on port 1
+  final Joystick stick2 = new Joystick(2); // Creates a joystick on port 2
 
   //Joystick buttons
-  private final JoystickButton button1 = new JoystickButton(stick1, 1); // Creates a new button for button 1 on stick1
-  private final JoystickButton button2 = new JoystickButton(stick1, 2);
-  private final JoystickButton button3 = new JoystickButton(stick1, 3);
-  private final JoystickButton button4 = new JoystickButton(stick1, 4);
-  private final JoystickButton button5 = new JoystickButton(stick1, 5);
+  private final JoystickButton Button1 = new JoystickButton(stick1, 1); // Creates a new button for button 1 on stick1
+  private final JoystickButton Button2 = new JoystickButton(stick1, 2);
+  private final JoystickButton Button3 = new JoystickButton(stick1, 3);
+  private final JoystickButton Button4 = new JoystickButton(stick1, 4);
+  private final JoystickButton Button5 = new JoystickButton(stick1, 5);
   private final JoystickButton Button6 = new JoystickButton(stick1, 6);
   private final JoystickButton Button7 = new JoystickButton(stick1, 7);
   private final JoystickButton Button9 = new JoystickButton(stick1, 9);
@@ -72,6 +80,7 @@ public class RobotContainer {
   // private final XboxJoystickElevator elevatorCommand = new XboxJoystickElevator(elevatorSub, xbox);
   // private final SmallJoystickElevator elevatorCommand = new SmallJoystickElevator(elevatorSub, stick1);
   // private final EncoderTest m_telopCommand = new EncoderTest(m_driveTrain);
+  private final TurnRevolver turnRevolver = new TurnRevolver(m_revolver);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -87,9 +96,11 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    button3.whenPressed(new InstantCommand(m_driveTrain::setServoMax, m_driveTrain));
-    button4.whenPressed(new InstantCommand(m_driveTrain::setServoMin, m_driveTrain));
+    Button1.whenPressed(new TurnRevolver(m_revolver)); //TODO Figure out what button we want to use for the revolver
+    Button2.whenPressed(new AimHood(m_hood,  1)); //TODO Figure out what buttons we want to use for hood movement
+    Button3.whenPressed(new AimHood(m_hood, -1));
   }
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

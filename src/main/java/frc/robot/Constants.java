@@ -10,20 +10,25 @@ package frc.robot;
 import frc.robot.libraries.Gains;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants.  This class should not be used for any other purpose.  All constants should be
- * declared globally (i.e. public static).  Do not put anything functional in this class.
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean constants. This class should not be used for any other
+ * purpose. All constants should be declared globally (i.e. public static). Do
+ * not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
- * constants are needed, to reduce verbosity.
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    //! NEED TO BE ACTUALLY SET
+     //! NEED TO BE ACTUALLY SET
     //--------------------Motor Ports--------------------\\
     //DriveTrain Motors
     //ports set up for test drivetrain currently
-    public static final int motor_left_drive_port = 0;
-	public static final int motor_right_drive_port = 1;
+    public static final int motor_left_drive_port = 2;
+    public static final int motor_right_drive_port = 1;
+    public static final int motor_revolver_port = 3;
+    public static final int motor_shooter_port = 4;
+    public static final int motor_turret_port = 5;
     public enum DriveMotors
     { 
         FL, FR, BL, BR; 
