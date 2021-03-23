@@ -11,13 +11,14 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 
-public class SingleJoystickDrive extends CommandBase {
+public class JoysitckPID extends CommandBase {
   /**
    * Creates a new SingleJoystickDrive.
    */
   DriveTrain m_drivetrain;
   Joystick stick;
-  public SingleJoystickDrive(DriveTrain m_drivetrain,Joystick stick) {
+
+  public JoysitckPID(DriveTrain m_drivetrain, Joystick stick) {
     this.m_drivetrain = m_drivetrain;
     this.stick = stick;
     // Use addRequirements() here to declare subsystem dependencies.
