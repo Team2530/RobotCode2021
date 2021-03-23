@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.SlewRateLimiter;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -27,31 +28,36 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 // import edu.wpi.first.wpilibj.SPI.Port;
 // import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.util.Units;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.commands.AssistedJoystickDrive;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 // import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 
-public class DriveTrain {
+public class DriveTrain extends SubsystemBase{
   // private static final Port i2c_port_id = null;
 
   // -------------------- Motors -------------------- \\
   // Left Motors
   WPI_TalonFX motor_left = new WPI_TalonFX(Constants.motor_left_drive_port);
   WPI_TalonFX motor_right = new WPI_TalonFX(Constants.motor_right_drive_port);
+  WPI_TalonSRX motor_temp = new WPI_TalonSRX(Constants.motor_revolver_port);
   AHRS ahrs = new AHRS();
+  Servo servo = new Servo(0);
 
-  DifferentialDrive differentialDrive = new DifferentialDrive(motor_left, motor_right);
+  DifferentialDrive differentialDrive;
   DifferentialDriveKinematics m_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(Constants.WHEEL_DISTANCE));//#distance betweeen drive train in cm
   DifferentialDriveOdometry m_odometry;
   private final SimpleMotorFeedforward m_feedforward = new SimpleMotorFeedforward(Constants.kS, Constants.kV, Constants.kA);
 
-  private final PIDController m_leftPIDController = new PIDController(1, 0, 0);
-  private final PIDController m_rightPIDController = new PIDController(1, 0, 0);
+  private final PIDController m_leftPIDController = new PIDController(Constants.PIDleftDrive.kP,Constants.PIDleftDrive.kI,Constants.PIDleftDrive.kD);
+  private final PIDController m_rightPIDController = new PIDController(Constants.PIDrigthDrive.kP,Constants.PIDrigthDrive.kI,Constants.PIDrigthDrive.kD);
 
   private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3);
   private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(3);
@@ -61,22 +67,31 @@ public class DriveTrain {
    */
   public DriveTrain() 
   {
-  motor_left.setInverted(false);
+  motor_left.setInverted(true);
   motor_right.setInverted(false);
 
   motor_left.setNeutralMode(NeutralMode.Brake);
   motor_right.setNeutralMode(NeutralMode.Brake);
-  
+  motor_left.setSelectedSensorPosition(0);
+  motor_right.setSelectedSensorPosition(0);
   motor_left.feed();
   motor_right.feed();
+
   
   m_odometry= new DifferentialDriveOdometry(ahrs.getRotation2d());
+  differentialDrive = new DifferentialDrive(motor_left, motor_right);
+  differentialDrive.setSafetyEnabled(false);
+}
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber("Servo", servo.get());
   }
   public void singleJoystickDrive(double x, double z){
     differentialDrive.arcadeDrive(x, z);
   }
   public void singleJoystickDrivePID(double x, double z){
     var wheelSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(m_speedLimiter.calculate(x) * Constants.kMaxSpeed, 0.0, m_rotLimiter.calculate(z* Constants.kMaxAngularSpeed)));
+    SmartDashboard.putString("wheelSpeed",wheelSpeeds.toString());
     setSpeeds(wheelSpeeds);
   }
   public void stop(){
@@ -90,10 +105,16 @@ public class DriveTrain {
     final double leftFeedforward = m_feedforward.calculate(speeds.leftMetersPerSecond);
     final double rightFeedforward = m_feedforward.calculate(speeds.rightMetersPerSecond);
 
+    SmartDashboard.putString("LeftEncoderRate", Double.toString(getLeftEncoderRate()));
+    SmartDashboard.putString("RightEncoderRate", Double.toString(getRightEncoderRate()));
+
+
     final double leftOutput =
         m_leftPIDController.calculate(getLeftEncoderRate(), speeds.leftMetersPerSecond);
     final double rightOutput =
         m_rightPIDController.calculate(getRightEncoderRate(), speeds.rightMetersPerSecond);
+    SmartDashboard.putString("LeftVoltage", Double.toString(leftOutput + leftFeedforward));
+    SmartDashboard.putString("RighttVoltage", Double.toString(rightOutput + rightFeedforward));
     motor_left.setVoltage(leftOutput + leftFeedforward);
     motor_right.setVoltage(rightOutput + rightFeedforward);
   }
@@ -110,5 +131,12 @@ public class DriveTrain {
   public double getRightEncoderRate(){
     return motor_right.getSelectedSensorVelocity();
   }
-  
+  public void setServoMin(){
+    servo.setPosition(0.78);
+    
+  }
+  public void setServoMax(){
+    servo.setPosition(1);
+  }
+
 }
