@@ -29,6 +29,8 @@ public final class Constants {
     public static final int motor_revolver_port = 3;
     public static final int motor_shooter_port = 4;
     public static final int motor_turret_port = 5;
+    public static final int servo_shooter_port = 0;
+    public static final int turret_encoder = 0;
     public enum DriveMotors
     { 
         FL, FR, BL, BR; 
@@ -55,6 +57,7 @@ public final class Constants {
     public static final double kMaxAngularSpeed = 0;
     public static final Gains PIDleftDrive = new Gains(0.439, 0, 0, 0, 0, 0);
     public static final Gains PIDrigthDrive = new Gains(0.439, 0, 0, 0, 0, 0);
+    public static final Gains motor_Shooter= new Gains(1, 0, 0, 0, 0, 0);
 
     //public static final double ALIGN = 0.025;
     public static final double WHEEL_DISTANCE = 13.35;
@@ -99,5 +102,6 @@ public final class Constants {
     public static final double minHeight = -29.68168*2.54; //cm
 	public static final double gravity = -9.81;//meters per second squared
 	public static final int DROP_IN_DISTANCE_PER_REVOLUTION = 0;
+	
 
 }

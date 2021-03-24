@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -16,7 +15,9 @@ public class Revolver extends SubsystemBase {
   private static WPI_TalonFX motor_Revolver = new WPI_TalonFX(Constants.motor_revolver_port);
 
   /** Creates a new Revolver. */
-  public Revolver() {}
+  public Revolver() {
+    
+  }
 
   @Override
   public void periodic() {
