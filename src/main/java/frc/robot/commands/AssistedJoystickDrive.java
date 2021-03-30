@@ -18,6 +18,7 @@ public class AssistedJoystickDrive extends CommandBase {
    */
   DriveTrain m_drivetrain;
   Joystick stick;
+  
 
   public AssistedJoystickDrive(DriveTrain m_drivetrain, Joystick stick) {
     this.m_drivetrain = m_drivetrain;

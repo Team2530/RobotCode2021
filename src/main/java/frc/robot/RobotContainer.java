@@ -21,9 +21,10 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -42,45 +43,49 @@ public class RobotContainer {
   private final Revolver m_revolver = new Revolver();
 
   // -------------------- Joysticks and Buttons -------------------- \\
-  //Joysticks
+  // Joysticks
   final Joystick stick1 = new Joystick(1); // Creates a joystick on port 1
   final Joystick stick2 = new Joystick(2); // Creates a joystick on port 2
 
-  //Joystick buttons
+  // Joystick buttons
   private final JoystickButton Button1 = new JoystickButton(stick1, 1); // Creates a new button for button 1 on stick1
-  private final JoystickButton Button2 = new JoystickButton(stick1, 2);
-  private final JoystickButton Button3 = new JoystickButton(stick1, 3);
-  private final JoystickButton Button4 = new JoystickButton(stick1, 4);
-  private final JoystickButton Button5 = new JoystickButton(stick1, 5);
-  private final JoystickButton Button6 = new JoystickButton(stick1, 6);
-  private final JoystickButton Button7 = new JoystickButton(stick1, 7);
-  private final JoystickButton Button9 = new JoystickButton(stick1, 9);
-  private final JoystickButton Button10 = new JoystickButton(stick1, 10);
-
-  //Xbox Controller
+  // private final JoystickButton Button2 = new JoystickButton(stick1, 2);
+  // private final JoystickButton Button3 = new JoystickButton(stick1, 3);
+  // private final JoystickButton Button4 = new JoystickButton(stick1, 4);
+  // private final JoystickButton Button5 = new JoystickButton(stick1, 5);
+  // private final JoystickButton Button6 = new JoystickButton(stick1, 6);
+  // private final JoystickButton Button7 = new JoystickButton(stick1, 7);
+  // private final JoystickButton Button9 = new JoystickButton(stick1, 9);
+  // private final JoystickButton Button10 = new JoystickButton(stick1, 10);
+  // private final JoystickButton Button11 = new JoystickButton(stick1, 11);
+  // private final JoystickButton Button12 = new JoystickButton(stick1, 12);
+  // Xbox Controller
   final XboxController xbox = new XboxController(0);
 
-  //Xbox buttons
+  // Xbox buttons
   private final JoystickButton XboxButton1 = new JoystickButton(xbox, 1);
 
   // -------------------- Autonomous Commands -------------------- \\
-  
+
   String trajectoryJSON = "PathWeaver/DriveForwardFarBlue.wpilib.json";
   TrajectoryConfig trajectoryConfig = new TrajectoryConfig(10, 60);
-  
-  
-  // private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-  
-  //private final TrajectoryTest m_autoCommand = new TrajectoryTest(m_driveTrain, new Traj);
-  
-  //private final DelayTest delayCommand = new DelayTest(1, m_autoCommand);
-  
+
+  // private final ExampleCommand m_autoCommand = new
+  // ExampleCommand(m_exampleSubsystem);
+
+  // private final TrajectoryTest m_autoCommand = new TrajectoryTest(m_driveTrain,
+  // new Traj);
+
+  // private final DelayTest delayCommand = new DelayTest(1, m_autoCommand);
 
   // -------------------- Telop Commands -------------------- \\
-  // private final XboxJoystickElevator elevatorCommand = new XboxJoystickElevator(elevatorSub, xbox);
-  // private final SmallJoystickElevator elevatorCommand = new SmallJoystickElevator(elevatorSub, stick1);
+  // private final XboxJoystickElevator elevatorCommand = new
+  // XboxJoystickElevator(elevatorSub, xbox);
+  // private final SmallJoystickElevator elevatorCommand = new
+  // SmallJoystickElevator(elevatorSub, stick1);
   // private final EncoderTest m_telopCommand = new EncoderTest(m_driveTrain);
-  private final TurnRevolver turnRevolver = new TurnRevolver(m_revolver);
+  //private final TurnRevolver turnRevolver = new TurnRevolver(m_revolver,stick1);
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -96,9 +101,27 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    Button1.whenPressed(new TurnRevolver(m_revolver)); //TODO Figure out what button we want to use for the revolver
-    Button2.whenPressed(new AimHood(m_hood,  1)); //TODO Figure out what buttons we want to use for hood movement
-    Button3.whenPressed(new AimHood(m_hood, -1));
+    // Button1.whenPressed(new TurnRevolver(m_revolver)); //TODO Figure out what
+    // button we want to use for the revolver
+    // Button2.whenPressed(new AimHood(m_hood, 1)); //TODO Figure out what buttons
+    // we want to use for hood movement
+    // Button3.whenPressed(new AimHood(m_hood, -1));
+    new  JoystickButton(stick1, 1).whenPressed(() -> m_hood.flywheelSpeedSetPercentOutput(1))
+    .whenReleased(() -> m_hood.flywheelSpeedSetPercentOutput(0));
+    // new JoystickButton(stick1, 3)
+    // .whenPressed(() -> m_hood.flywheelSpeedSetPercentOutput(0.9))
+    // .whenReleased(() -> m_hood.setHoodPosition(0));
+    // new JoystickButton(stick1, 4)
+    // .whenPressed(() -> m_hood.flywheelSpeedSetPercentOutput(0.9))
+    // .whenReleased(() -> m_hood.setHoodPosition(0));
+    new JoystickButton(stick1, 2).whenPressed(() -> m_revolver.setRevolverSpeed(0.25))
+        .whenReleased(() -> m_revolver.setRevolverSpeed(0));
+    new JoystickButton(stick1, 3).whenPressed(() -> m_revolver.setRevolverSpeed(-0.25))
+        .whenReleased(() -> m_revolver.setRevolverSpeed(0));
+    // new JoystickButton(stick1, 4).whenPressed(() -> m_revolver.setRevolverSpeed(0.5))
+    //     .whenReleased(() -> m_hood.);
+    // new JoystickButton(stick1, 6).whenPressed(() -> m_revolver.setRevolverSpeed(-0.5))
+    //     .whenReleased(() -> m_revolver.setRevolverSpeed(0));
   }
 
   /**
@@ -109,18 +132,19 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     // try {
-    //   Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-      
-       
+    // Path trajectoryPath =
+    // Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+
     // } catch (IOException ex) {
-    //   DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+    // DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON,
+    // ex.getStackTrace());
     // }
 
     return null;
   }
 
   public Command getTelopCommand() {
-    return null;
+    return new ParallelCommandGroup(new ManualShooter(m_hood, stick1), new SingleJoystickDrive(m_driveTrain,stick1));
   }
 
 }
