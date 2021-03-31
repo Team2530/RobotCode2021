@@ -45,6 +45,8 @@ public class Hood extends SubsystemBase {
   NetworkTable table;
   int light = 1;
   public double hoodTargetAngle = 0;
+  double servoPos = 0.5;
+
   public Hood() {
     /* Factory Default all hardware to prevent unexpected behaviour */
 		motor_shooter.configFactoryDefault();
@@ -97,6 +99,8 @@ public class Hood extends SubsystemBase {
     ta = table.getEntry("ta").getDouble(0.0);
     SmartDashboard.putNumber("light", light);
     SmartDashboard.putNumber("tx", tx);
+    servoPos = SmartDashboard.getNumber("Servo pos", servoPos);
+    moveHoodToAngle(servoPos);
   }
 
   public void setHoodPosition(double pos) {
