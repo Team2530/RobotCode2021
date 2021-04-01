@@ -144,7 +144,7 @@ public class RobotContainer {
   }
 
   public Command getTelopCommand() {
-    return new ParallelCommandGroup(new ManualShooter(m_hood, stick1), new SingleJoystickDrive(m_driveTrain,stick1));
+    return new ParallelCommandGroup(new ManualShooter(m_hood, stick1), new AssistedJoystickDrive(m_driveTrain,stick1));
   }
 
 }

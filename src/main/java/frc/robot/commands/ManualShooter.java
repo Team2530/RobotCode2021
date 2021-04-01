@@ -28,7 +28,7 @@ public class ManualShooter extends CommandBase {
   @Override
   public void execute() {
     //m_hood.setTurretPower(stick.getX());
-    m_hood.setHoodPosition(0.4+(0.2*stick.getRawAxis(3)));
+    //m_hood.setHoodPosition(0.4+(0.2*stick.getRawAxis(3)));
   }
 
   // Called once the command ends or is interrupted.

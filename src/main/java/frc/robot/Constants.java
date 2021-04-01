@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.libraries.Gains;
 
 /**
@@ -36,7 +37,7 @@ public final class Constants {
         FL, FR, BL, BR; 
     } 
     //----------Sensor Constants-----------\\
-    public static final int ENCODER_TICKS_PER_REVOLUTION = 1024;
+    public static final int ENCODER_TICKS_PER_REVOLUTION = 2048;
     public static final int gyroDrift = 5;
     public static final double sensor_Limelight_Height = 25;//? mounting height in inches
     public static final double HOOD_GEAR_RATIO = 11/72; //TODO: I based this off of the gear tooth ratios, but don't know if that's right
@@ -45,7 +46,7 @@ public final class Constants {
     public static final int kTimeoutMs = 30;
     
     //----------Driving Constants----------\\
-    public static final double DRIVE_GEAR_RATIO = 1; //?This ratio is the ratio between the encoder and the driven wheels
+    public static final double DRIVE_GEAR_RATIO = 6.5; //?This ratio is the ratio between the encoder and the driven wheels
     public static final double WHEEL_RADIUS = 6*2.54; //!Not diameter radius
     public static final double DISTANCE_PER_PULSE = Constants.ENCODER_TICKS_PER_REVOLUTION * Math.PI * Math.pow(Constants.WHEEL_RADIUS, 2);
     public static final double kS = 0.761;
@@ -53,16 +54,14 @@ public final class Constants {
     public static final double kA = 0.0095;
     public static final double kRamseteB = 0;//! Not calculated
     public static final double kRamseteZeta = 0;//! Not calculated
-    public static final double kMaxSpeed = 0;
-    public static final double kMaxAngularSpeed = 0;
+    public static final double kMaxSpeed = 6.7;
+    public static final double kMaxAngularSpeed = 4*Math.PI;
     public static final Gains PIDleftDrive = new Gains(0.439, 0, 0, 0, 0, 0);
     public static final Gains PIDrigthDrive = new Gains(0.439, 0, 0, 0, 0, 0);
     public static final Gains motor_Shooter= new Gains(1, 0, 0, 0, 0, 0);
 
     //public static final double ALIGN = 0.025;
-    public static final double WHEEL_DISTANCE = 13.35;
-    public static final double MAX_DRIVE_SPEED = 10;//Need this in m/s
-    public static final double MAX_ANGULAR_SPEED = 0.5;//Need this in rad/s
+    public static final double WHEEL_DISTANCE = Units.inchesToMeters(21);
     
 
     public static final double tol = 5;

@@ -42,7 +42,7 @@ public class DriveTrain extends SubsystemBase{
 
 
   DifferentialDrive differentialDrive;
-  DifferentialDriveKinematics m_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(Constants.WHEEL_DISTANCE));//#distance betweeen drive train in cm
+  DifferentialDriveKinematics m_kinematics = new DifferentialDriveKinematics(Constants.WHEEL_DISTANCE);
   DifferentialDriveOdometry m_odometry;
   private final SimpleMotorFeedforward m_feedforward = new SimpleMotorFeedforward(Constants.kS, Constants.kV, Constants.kA);
 
@@ -110,16 +110,16 @@ public class DriveTrain extends SubsystemBase{
   }
   //NEED TO SET ALL OF THESE CORRECTLY
   public double getLeftEncoderDistance(){
-    return motor_left.getSelectedSensorPosition();
+    return motor_left.getSelectedSensorPosition()/Constants.ENCODER_TICKS_PER_REVOLUTION;
   }
   public double getRightEncoderDistance(){
-    return motor_right.getSelectedSensorPosition();
+    return motor_right.getSelectedSensorPosition()/Constants.ENCODER_TICKS_PER_REVOLUTION;
   }
   public double getLeftEncoderRate(){
-    return motor_left.getSelectedSensorVelocity();
+    return motor_left.getSelectedSensorVelocity()/Constants.ENCODER_TICKS_PER_REVOLUTION;
   }
   public double getRightEncoderRate(){
-    return motor_right.getSelectedSensorVelocity();
+    return motor_right.getSelectedSensorVelocity()/Constants.ENCODER_TICKS_PER_REVOLUTION;
   }
 
 }
