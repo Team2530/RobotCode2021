@@ -47,6 +47,7 @@ public class Hood extends SubsystemBase {
   int light = 1;
   public double hoodTargetAngle = 0;
   double servoPos = 0.5;
+  boolean targeting = false;
 
   public Hood() {
     /* Factory Default all hardware to prevent unexpected behaviour */
@@ -73,6 +74,7 @@ public class Hood extends SubsystemBase {
 
     table = NetworkTableInstance.getDefault().getTable("limelight");
     SmartDashboard.putNumber("Servo pos", servoPos);
+    light = (int)table.getEntry("ledMode").getDouble(0.0);
   }
 
   @Override
@@ -83,11 +85,11 @@ public class Hood extends SubsystemBase {
     // turret_counter.setReverseDirection(true);
     // SmartDashboard.putBoolean("Raw Sensor Turret", halleffect.get());
     // SmartDashboard.putNumber("Turret encoder", turret_counter.get());
-    if (ta > 2) {
+    if (targeting) {
       if (tx > 3) {
-        motor_turret.set(ControlMode.PercentOutput, -0.50);
+        motor_turret.set(ControlMode.PercentOutput, -1);
       } else if (tx < -3) {
-        motor_turret.set(ControlMode.PercentOutput, 0.50);
+        motor_turret.set(ControlMode.PercentOutput, 1);
       } else {
         motor_turret.stopMotor();
       }
@@ -105,12 +107,16 @@ public class Hood extends SubsystemBase {
     tx = table.getEntry("tx").getDouble(0.0);
     ty = table.getEntry("ty").getDouble(0.0);
     ta = table.getEntry("ta").getDouble(0.0);
-    SmartDashboard.putNumber("light", light);
+    
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(light);
     SmartDashboard.putNumber("tx", tx);
 
     moveHoodToAngle(ty);
   }
-
+   
+  public void toggleAim(){
+    targeting = !targeting;
+  }
   public void autoAimHood(double distance) { // ! everything must stay in meters
     angleCalc = Math.atan((Constants.target_Height - Constants.SHOOTER_HEIGHT) / distance);
     velocityX = flywheelSpeed * Constants.MAX_SHOOTING_VELOCITY * Math.cos(angleCalc);
@@ -136,6 +142,20 @@ public class Hood extends SubsystemBase {
 
   public void setTurretPower(double speed) {
     motor_turret.set(ControlMode.PercentOutput, speed);
+  }
+  public void toggleLight(){
+    switch(light){
+      case 1:
+        light = 3;
+        break;
+      case 3:
+        light = 1;
+        break;
+      default:
+        light = 3;
+        break;
+    }
+
   }
 
 }

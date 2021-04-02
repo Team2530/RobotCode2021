@@ -36,7 +36,7 @@ public class AssistedJoystickDrive extends CommandBase {
   @Override
   public void execute() {
     SmartDashboard.putString("TIme", "execute");
-    m_drivetrain.singleJoystickDrivePID(-stick.getY(), -stick.getZ());
+    m_drivetrain.singleJoystickDrivePID(stick.getY(), -stick.getZ());
   }
 
   // Called once the command ends or is interrupted.
