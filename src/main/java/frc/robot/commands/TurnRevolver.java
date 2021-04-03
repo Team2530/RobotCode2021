@@ -4,17 +4,14 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Revolver;
 
 public class TurnRevolver extends CommandBase{
   /** Creates a new TurnRevolver. */
   Revolver m_revolver;
-  Joystick stick;
-  public TurnRevolver(Revolver m_revolver,Joystick stick) {
+  public TurnRevolver(Revolver m_revolver) {
     this.m_revolver = m_revolver;
-    this.stick = stick;
 
     // Use addRequirements() here to declare subsystem dependencies.
 
@@ -23,6 +20,7 @@ public class TurnRevolver extends CommandBase{
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_revolver.rotateRevolver(90);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -8,6 +8,7 @@ import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Revolver extends SubsystemBase {
@@ -26,6 +27,16 @@ public class Revolver extends SubsystemBase {
 
   public void setRevolverSpeed(double speed) {
     motor_Revolver.set(speed);
+  }
+
+  public void rotateRevolver(double angle) {
+    double prevPos = motor_Revolver.getSelectedSensorPosition();
+    try {
+      motor_Revolver.setSelectedSensorPosition(prevPos + (angle / 360 * Constants.ENCODER_TICKS_PER_REVOLUTION), 0, 1000);
+    } catch(Exception e) {
+      setRevolverSpeed(0);
+      System.out.println("The revolver stopped because it detected a stalling issue.");
+    }
   }
 
 }
