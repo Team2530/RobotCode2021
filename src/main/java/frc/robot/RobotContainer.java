@@ -127,6 +127,12 @@ public class RobotContainer {
         .whenReleased(() -> m_revolver.setRevolverSpeed(0));
     new JoystickButton(stick1, 3).whenPressed(() -> m_revolver.setRevolverSpeed(-0.25))
         .whenReleased(() -> m_revolver.setRevolverSpeed(0));
+    new JoystickButton(stick1, 7).whenPressed(() -> m_hood.moveHoodToAngle(0));
+    new JoystickButton(stick1, 8).whenPressed(() -> m_hood.moveHoodToAngle(5));
+    new JoystickButton(stick1, 9).whenPressed(() -> m_hood.moveHoodToAngle(10));
+    new JoystickButton(stick1, 10).whenPressed(() -> m_hood.moveHoodToAngle(15));
+    new JoystickButton(stick1, 11).whenPressed(() -> m_hood.moveHoodToAngle(20));
+    new JoystickButton(stick1, 12).whenPressed(() -> m_hood.moveHoodToAngle(25));
     new JoystickButton(stick1, 4).whenPressed(() -> m_hood.toggleAim());
     new JoystickButton(stick1, 6).whenPressed(() -> m_hood.toggleLight());
     // new JoystickButton(stick1, 6).whenPressed(() -> m_revolver.setRevolverSpeed(-0.5))
@@ -138,7 +144,7 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
+  public Command getAutonomousCommand(Trajectory trajectory) {
     // Create a voltage constraint to ensure we don't accelerate too fast
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
@@ -155,22 +161,12 @@ public class RobotContainer {
             .setKinematics(m_driveTrain.m_kinematics)
             // Apply the voltage constraint
             .addConstraint(autoVoltageConstraint);
-
+    //Slalom.path
     // An example trajectory to follow.  All units in meters.
-    Trajectory exampleTrajectory =
-        TrajectoryGenerator.generateTrajectory(
-            // Start at the origin facing the +X direction
-            new Pose2d(0, 0, new Rotation2d(0)),
-            // Pass through these two interior waypoints, making an 's' curve path
-            List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-            // End 3 meters straight ahead of where we started, facing forward
-            new Pose2d(3, 0, new Rotation2d(0)),
-            // Pass config
-            config);
 
     RamseteCommand ramseteCommand =
         new RamseteCommand(
-            exampleTrajectory,
+            trajectory,
             m_driveTrain::getPose,
             new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
             m_driveTrain.m_feedforward,
@@ -183,14 +179,14 @@ public class RobotContainer {
             m_driveTrain);
 
     // Reset odometry to the starting pose of the trajectory.
-    m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
+    m_driveTrain.resetOdometry(trajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
-    return ramseteCommand.andThen(() -> m_robotDrive.tankDriveVolts(0, 0));
+    return ramseteCommand.andThen(() -> m_driveTrain.tankDriveVolts(0, 0));
   }
 
   public Command getTelopCommand() {
-    return new ParallelCommandGroup(new ManualShooter(m_hood, stick1), new AssistedJoystickDrive(m_driveTrain,stick1));
+    return new ParallelCommandGroup(new ManualShooter(m_hood, stick1), new SingleJoystickDrive(m_driveTrain,stick1));
   }
 
 }

@@ -111,7 +111,7 @@ public class Hood extends SubsystemBase {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(light);
     SmartDashboard.putNumber("tx", tx);
 
-    moveHoodToAngle(ty);
+    //moveHoodToAngle(ty);
   }
    
   public void toggleAim(){
@@ -128,7 +128,8 @@ public class Hood extends SubsystemBase {
 
   public void moveHoodToAngle(double angle) {
     // 52/0.2
-    double pos = 0.5 - ((angle) / 600);
+    
+    double pos = 0.6 - ((angle) / 300);
     servo.set(pos);
   }
 
