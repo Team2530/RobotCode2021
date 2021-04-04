@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.SlewRateLimiter;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
@@ -78,15 +79,26 @@ public class DriveTrain extends SubsystemBase{
   m_odometry= new DifferentialDriveOdometry(ahrs.getRotation2d());
   differentialDrive = new DifferentialDrive(motor_left, motor_right);
   differentialDrive.setSafetyEnabled(false);
+ 
+
 }
   @Override
   public void periodic() {
-
+    SmartDashboard.putNumber("Distance left", getLeftEncoderDistance());
+    SmartDashboard.putNumber("Distance right", getRightEncoderDistance());
+    SmartDashboard.putNumber("Velocity left", getLeftEncoderRate());
+    SmartDashboard.putNumber("Velocity right ", getLeftEncoderRate());
     updateOdometry();
+    putAcceleration();
   }
   
   public void singleJoystickDrive(double x, double z){
     differentialDrive.arcadeDrive(x, z);
+  }
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    motor_left.setVoltage(leftVolts);
+    motor_right.setVoltage(-rightVolts);
+    differentialDrive.feed();
   }
   public void singleJoystickDrivePID(double x, double z){
     var wheelSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(m_speedLimiter.calculate(x) * Constants.kMaxSpeed, 0.0, m_rotLimiter.calculate(z* Constants.kMaxAngularSpeed)));
@@ -99,6 +111,9 @@ public class DriveTrain extends SubsystemBase{
   public void updateOdometry() {
     m_odometry.update(
         ahrs.getRotation2d(), getLeftEncoderDistance(), getRightEncoderDistance());
+  }
+  public Pose2d getPose() {
+    return m_odometry.getPoseMeters();
   }
   public void setSpeeds(DifferentialDriveWheelSpeeds speeds) {
     final double leftFeedforward = m_feedforward.calculate(speeds.leftMetersPerSecond);
@@ -123,58 +138,31 @@ public class DriveTrain extends SubsystemBase{
 
   //NEED TO SET ALL OF THESE CORRECTLY
   public double getLeftEncoderDistance(){
-    return motor_left.getSelectedSensorPosition()/Constants.ENCODER_TICKS_PER_REVOLUTION;
+    return motor_left.getSelectedSensorPosition()/Constants.ENCODER_TICKS_PER_REVOLUTION/Constants.DRIVE_GEAR_RATIO;
   }
   public double getRightEncoderDistance(){
-    return motor_right.getSelectedSensorPosition()/Constants.ENCODER_TICKS_PER_REVOLUTION;
+    return motor_right.getSelectedSensorPosition()/Constants.ENCODER_TICKS_PER_REVOLUTION/Constants.DRIVE_GEAR_RATIO;
   }
   public double getLeftEncoderRate(){
-    return motor_left.getSelectedSensorVelocity()/Constants.ENCODER_TICKS_PER_REVOLUTION;
+    return motor_left.getSelectedSensorVelocity()/(Constants.ENCODER_TICKS_PER_REVOLUTION*Constants.DRIVE_GEAR_RATIO);
   }
   public double getRightEncoderRate(){
-    return motor_right.getSelectedSensorVelocity()/Constants.ENCODER_TICKS_PER_REVOLUTION;
+    return motor_right.getSelectedSensorVelocity()/(Constants.ENCODER_TICKS_PER_REVOLUTION*Constants.DRIVE_GEAR_RATIO);
   }
-
-  
-  
-  public Command getAutonomousCommand(String path) {
-
-    String trajectoryJSON = "paths/YourPath.wpilib.json";
-    try{
-    Trajectory trajectory = new Trajectory();
-    } catch (IOException ex) {
-    DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-    }
-    // Create config for trajectory
-    TrajectoryConfig config =
-        new TrajectoryConfig(Constants.maxVelocityMetersPerSecond,
-                             Constants.maxAccelerationMetersPerSecondSq)
-            // Add kinematics to ensure max speed is actually obeyed
-            .setKinematics(m_kinematics)
-            // Apply the voltage constraint
-            .addConstraint(Constants.autoVoltageConstraint);
-
-
-    RamseteCommand ramseteCommand = new RamseteCommand(
-        trajectory,
-        m_robotDrive::getPose,
-        new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
-        new SimpleMotorFeedforward(DriveConstants.ksVolts,
-                                   DriveConstants.kvVoltSecondsPerMeter,
-                                   DriveConstants.kaVoltSecondsSquaredPerMeter),
-        DriveConstants.kDriveKinematics,
-        m_robotDrive::getWheelSpeeds,
-        new PIDController(DriveConstants.kPDriveVel, 0, 0),
-        new PIDController(DriveConstants.kPDriveVel, 0, 0),
-        // RamseteCommand passes volts to the callback
-        m_robotDrive::tankDriveVolts,
-        m_robotDrive
-    );
-
-    // Reset odometry to the starting pose of the trajectory.
-    m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
-
-    // Run path following command, then stop at the end.
-    return ramseteCommand.andThen(() -> m_robotDrive.tankDriveVolts(0, 0));
+  public double getAvgEncoderRate(){
+    return (getLeftEncoderRate()+getRightEncoderRate())/2;
   }
+  public void putAcceleration(){
+    SmartDashboard.putNumber(  "RawAccel_X",           ahrs.getRawAccelX());
+    SmartDashboard.putNumber(  "RawAccel_Y",           ahrs.getRawAccelY());
+    SmartDashboard.putNumber(  "RawAccel_Z",           ahrs.getRawAccelZ());
+    SmartDashboard.putNumber(  "Velocity_X",           ahrs.getVelocityX());
+    SmartDashboard.putNumber(  "Velocity_Y",           ahrs.getVelocityY());
+    SmartDashboard.putNumber(  "Velocity_Z",           ahrs.getVelocityZ());
+  }
+public void resetOdometry(Pose2d pose) {
+  //resetEncoders();
+    m_odometry.resetPosition(pose, ahrs.getRotation2d());
+}
+
 }
