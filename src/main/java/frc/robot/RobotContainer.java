@@ -110,10 +110,7 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // Button1.whenPressed(new TurnRevolver(m_revolver)); //TODO Figure out what
-    // button we want to use for the revolver
-    // Button2.whenPressed(new AimHood(m_hood, 1)); //TODO Figure out what buttons
-    // we want to use for hood movement
+    // Button2.whenPressed(new AimHood(m_hood, 1)); //TODO Figure out what buttons we want to use for hood movement
     // Button3.whenPressed(new AimHood(m_hood, -1));
     new  JoystickButton(stick1, 1).whenPressed(() -> m_hood.flywheelSpeedSetPercentOutput(1))
     .whenReleased(() -> m_hood.flywheelSpeedSetPercentOutput(0));
@@ -123,8 +120,15 @@ public class RobotContainer {
     // new JoystickButton(stick1, 4)
     // .whenPressed(() -> m_hood.flywheelSpeedSetPercentOutput(0.9))
     // .whenReleased(() -> m_hood.setHoodPosition(0));
+
+    // Rotates the revolver 90 degrees
+    //Button1.whenPressed(new TurnRevolver(m_revolver));
+
+    // Manually rotates the revolver in the positive direction
     new JoystickButton(stick1, 2).whenPressed(() -> m_revolver.setRevolverSpeed(0.25))
         .whenReleased(() -> m_revolver.setRevolverSpeed(0));
+
+    // Manually rotates the revolver in the negative direction
     new JoystickButton(stick1, 3).whenPressed(() -> m_revolver.setRevolverSpeed(-0.25))
         .whenReleased(() -> m_revolver.setRevolverSpeed(0));
     new JoystickButton(stick1, 7).whenPressed(() -> m_hood.moveHoodToAngle(0));
@@ -133,10 +137,11 @@ public class RobotContainer {
     new JoystickButton(stick1, 10).whenPressed(() -> m_hood.moveHoodToAngle(15));
     new JoystickButton(stick1, 11).whenPressed(() -> m_hood.moveHoodToAngle(20));
     new JoystickButton(stick1, 12).whenPressed(() -> m_hood.moveHoodToAngle(25));
+
     new JoystickButton(stick1, 4).whenPressed(() -> m_hood.toggleAim());
+
+    // Toggles the LimeLight LEDs (useful for not blinding people)
     new JoystickButton(stick1, 6).whenPressed(() -> m_hood.toggleLight());
-    // new JoystickButton(stick1, 6).whenPressed(() -> m_revolver.setRevolverSpeed(-0.5))
-    //     .whenReleased(() -> m_revolver.setRevolverSpeed(0));
   }
 
   /**
