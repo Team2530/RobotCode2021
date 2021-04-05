@@ -57,11 +57,11 @@ public class RobotContainer {
   final Joystick stick2 = new Joystick(2); // Creates a joystick on port 2
 
   // Joystick buttons
-  private final JoystickButton Button1 = new JoystickButton(stick1, 1); // Creates a new button for button 1 on stick1
+  // private final JoystickButton Button1 = new JoystickButton(stick1, 1); // Creates a new button for button 1 on stick1
   // private final JoystickButton Button2 = new JoystickButton(stick1, 2);
   // private final JoystickButton Button3 = new JoystickButton(stick1, 3);
   // private final JoystickButton Button4 = new JoystickButton(stick1, 4);
-  // private final JoystickButton Button5 = new JoystickButton(stick1, 5);
+  private final JoystickButton Button5 = new JoystickButton(stick1, 5);
   // private final JoystickButton Button6 = new JoystickButton(stick1, 6);
   // private final JoystickButton Button7 = new JoystickButton(stick1, 7);
   // private final JoystickButton Button9 = new JoystickButton(stick1, 9);
@@ -72,7 +72,7 @@ public class RobotContainer {
   final XboxController xbox = new XboxController(0);
 
   // Xbox buttons
-  private final JoystickButton XboxButton1 = new JoystickButton(xbox, 1);
+  // private final JoystickButton XboxButton1 = new JoystickButton(xbox, 1);
 
   // -------------------- Autonomous Commands -------------------- \\
 
@@ -122,7 +122,7 @@ public class RobotContainer {
     // .whenReleased(() -> m_hood.setHoodPosition(0));
 
     // Rotates the revolver 90 degrees
-    //Button1.whenPressed(new TurnRevolver(m_revolver));
+    Button5.whenPressed(new TurnRevolver(m_revolver));
 
     // Manually rotates the revolver in the positive direction
     new JoystickButton(stick1, 2).whenPressed(() -> m_revolver.setRevolverSpeed(0.25))
@@ -131,6 +131,8 @@ public class RobotContainer {
     // Manually rotates the revolver in the negative direction
     new JoystickButton(stick1, 3).whenPressed(() -> m_revolver.setRevolverSpeed(-0.25))
         .whenReleased(() -> m_revolver.setRevolverSpeed(0));
+    
+    // Manually moves hood to specific angles
     new JoystickButton(stick1, 7).whenPressed(() -> m_hood.moveHoodToAngle(0));
     new JoystickButton(stick1, 8).whenPressed(() -> m_hood.moveHoodToAngle(5));
     new JoystickButton(stick1, 9).whenPressed(() -> m_hood.moveHoodToAngle(10));
@@ -142,6 +144,9 @@ public class RobotContainer {
 
     // Toggles the LimeLight LEDs (useful for not blinding people)
     new JoystickButton(stick1, 6).whenPressed(() -> m_hood.toggleLight());
+
+    // Automatically shoots balls
+    new JoystickButton(xbox, 1).whenPressed(() -> new AutoShoot(m_revolver, m_hood));
   }
 
   /**

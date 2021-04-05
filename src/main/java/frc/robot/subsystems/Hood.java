@@ -28,7 +28,7 @@ public class Hood extends SubsystemBase {
   // private static WPI_VictorSPX motor_HorizontalHood = new
   // WPI_VictorSPX(Constants.motor_HorizontalHood_Port);
   private static Servo servo = new Servo(Constants.servo_shooter_port);
-  private static WPI_TalonFX motor_shooter = new WPI_TalonFX(Constants.motor_shooter_port);
+  public static WPI_TalonFX motor_shooter = new WPI_TalonFX(Constants.motor_shooter_port);
   private static WPI_TalonSRX motor_turret = new WPI_TalonSRX(Constants.motor_turret_port);
   private static DigitalInput halleffect = new DigitalInput(Constants.turret_encoder);
   private static Counter turret_counter = new Counter(halleffect);
