@@ -132,6 +132,10 @@ public class Hood extends SubsystemBase {
     double pos = 0.6 - ((angle) / 300);
     servo.set(pos);
   }
+  public void setServo(double pos){
+
+    servo.set(pos);
+  }
 
   public void flywheelRotateSpeed(double f_speed) {
     motor_shooter.set(ControlMode.PercentOutput, f_speed);

@@ -52,8 +52,8 @@ public final class Constants {
     public static final double kS = 0.761;
     public static final double kV = 0.0631;
     public static final double kA = 0.0095;
-    public static final double kRamseteB = 0;//! Not calculated
-    public static final double kRamseteZeta = 0;//! Not calculated
+    public static final double kRamseteB = 2.0;
+    public static final double kRamseteZeta = 0.7;
     public static final double kMaxSpeed = 2.7;
     public static final double kMaxAngularSpeed = 16*Math.PI;
     public static final Gains PIDleftDrive = new Gains(0.439, 0, 0, 0, 0, 0);
