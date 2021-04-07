@@ -133,10 +133,10 @@ public class RobotContainer {
         .whenReleased(() -> m_revolver.setRevolverSpeed(0));
     
     // Manually moves hood to specific angles
-    new JoystickButton(stick1, 7).whileHeld(() -> m_hood.setServo(0.55));
-    new JoystickButton(stick1, 8).whileHeld(() -> m_hood.setServo(0.5));
-    new JoystickButton(stick1, 9).whileHeld(() -> m_hood.setServo(0.495));
-    new JoystickButton(stick1, 10).whileHeld(() -> m_hood.setServo(0.4));
+    // new JoystickButton(stick1, 7).whileHeld(() -> m_hood.setServo(0.55));
+    // new JoystickButton(stick1, 8).whileHeld(() -> m_hood.setServo(0.5));
+    // new JoystickButton(stick1, 9).whileHeld(() -> m_hood.setServo(0.495));
+    // new JoystickButton(stick1, 10).whileHeld(() -> m_hood.setServo(0.4));
     // new JoystickButton(stick1, 11).whenPressed(() -> m_hood.moveHoodToAngle(20));
     // new JoystickButton(stick1, 12).whenPressed(() -> m_hood.moveHoodToAngle(25));
 
@@ -196,7 +196,7 @@ public class RobotContainer {
   }
 
   public Command getTelopCommand() {
-    return new ParallelCommandGroup(new ManualShooter(m_hood, stick1), new SingleJoystickDrive(m_driveTrain,stick1));
+    return new ParallelCommandGroup(new ManualAimHood(stick1,m_hood,m_revolver), new SingleJoystickDrive(m_driveTrain,stick1));
   }
 
 }

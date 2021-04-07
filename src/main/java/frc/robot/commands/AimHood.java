@@ -22,13 +22,14 @@ public class AimHood extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_hood.moveHoodToAngle(30);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
 
+
+  }
 
   // Returns true when the command should end.
   @Override
