@@ -79,12 +79,12 @@ public class Hood extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // if(motor_turret.get()>0)
-    // turret_counter.set
-    // else if(motor_turret.get()<0)
-    // turret_counter.setReverseDirection(true);
-    // SmartDashboard.putBoolean("Raw Sensor Turret", halleffect.get());
-    // SmartDashboard.putNumber("Turret encoder", turret_counter.get());
+    if(motor_turret.get()>0)
+      turret_counter.setReverseDirection(false);
+    else if(motor_turret.get()<0)
+      turret_counter.setReverseDirection(true);
+    SmartDashboard.putBoolean("Raw Sensor Turret", halleffect.isAnalogTrigger());
+    SmartDashboard.putNumber("Turret encoder", turret_counter.get());
     if (targeting) {
       if (tx > 3) {
         motor_turret.set(ControlMode.PercentOutput, -1);

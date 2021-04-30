@@ -50,14 +50,14 @@ public final class Constants {
     public static final double WHEEL_RADIUS = 6*2.54; //!Not diameter radius
     public static final double DISTANCE_PER_PULSE = Constants.ENCODER_TICKS_PER_REVOLUTION * Math.PI * Math.pow(Constants.WHEEL_RADIUS, 2);
     public static final double kS = 0.761;
-    public static final double kV = 0.0631;
-    public static final double kA = 0.0095;
+    public static final double kV = 1.05;
+    public static final double kA = 0.265;
     public static final double kRamseteB = 2.0;
     public static final double kRamseteZeta = 0.7;
     public static final double kMaxSpeed = 2.7;
     public static final double kMaxAngularSpeed = 16*Math.PI;
-    public static final Gains PIDleftDrive = new Gains(0.439, 0, 0, 0, 0, 0);
-    public static final Gains PIDrigthDrive = new Gains(0.439, 0, 0, 0, 0, 0);
+    public static final Gains PIDleftDrive = new Gains(6, 0, 3.43, 0, 0, 0);
+    public static final Gains PIDrigthDrive = new Gains(6, 0, 3.43, 0, 0, 0);
     public static final Gains motor_Shooter= new Gains(1, 0, 0, 0, 0, 0);
 
     //public static final double ALIGN = 0.025;
@@ -68,7 +68,7 @@ public final class Constants {
     public static final int setPoint = 1;
 
     public static final double maxVelocityMetersPerSecond = 2.7; //!This needs to be set
-    public static final double maxAccelerationMetersPerSecondSq = 6.47; //!This needs to be set
+    public static final double maxAccelerationMetersPerSecondSq = 1; //!This needs to be set
     public static final double autoVoltageConstraint = 9.5;
 
     //----------Field Constants----------\\

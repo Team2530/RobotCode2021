@@ -45,16 +45,16 @@ public class ManualAimHood extends CommandBase {
       hood.setServo(0.55);
     }else if(stick.getRawButton(8))
     {
-      hood.flywheelSpeedSetPercentOutput(0.8);
-      hood.setServo(0.55);
+      hood.flywheelSpeedSetPercentOutput(0.6);
+      hood.setServo(0.5);
     }else if(stick.getRawButton(9))
     {
-      hood.flywheelSpeedSetPercentOutput(0.8);
-      hood.setServo(0.35);
+      hood.flywheelSpeedSetPercentOutput(0.55);
+      hood.setServo(0.45);
     }else if(stick.getRawButton(10))
     {
-      hood.flywheelSpeedSetPercentOutput(0.6);
-      hood.setServo(0.35);
+      hood.flywheelSpeedSetPercentOutput(1);
+      hood.setServo(0.45);
     }else{
       hood.flywheelSpeedSetPercentOutput(0);
     }

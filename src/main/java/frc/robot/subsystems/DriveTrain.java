@@ -31,6 +31,7 @@ import frc.robot.Constants;
 
 import java.io.IOException;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -57,7 +58,7 @@ public class DriveTrain extends SubsystemBase{
   public final PIDController m_leftPIDController = new PIDController(Constants.PIDleftDrive.kP,Constants.PIDleftDrive.kI,Constants.PIDleftDrive.kD);
   public final PIDController m_rightPIDController = new PIDController(Constants.PIDrigthDrive.kP,Constants.PIDrigthDrive.kI,Constants.PIDrigthDrive.kD);
 
-  private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(0.125);
+  private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(2);
   private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(2);
   
   /**
@@ -93,7 +94,7 @@ public class DriveTrain extends SubsystemBase{
   }
   
   public void singleJoystickDrive(double x, double z){
-    differentialDrive.arcadeDrive(x, z);
+    differentialDrive.arcadeDrive(m_speedLimiter.calculate(x), m_rotLimiter.calculate(z));
   }
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     motor_left.setVoltage(leftVolts);
@@ -135,22 +136,42 @@ public class DriveTrain extends SubsystemBase{
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(getLeftEncoderDistance(), getRightEncoderDistance());
   }
+  public void drive_straight(double distance, double power){
+    double initialLeft = getLeftEncoderDistance();
+    double initialRight = getRightEncoderDistance();
 
+    double targetLeft = initialLeft+distance;
+    double targetRight = initialRight+distance;
+    motor_left.set(ControlMode.PercentOutput, power);
+    motor_right.set(ControlMode.PercentOutput, power);
+    while(Math.abs(getLeftEncoderDistance()-targetLeft)>5&&Math.abs(getRightEncoderDistance()-targetRight)>5){
+      
+    SmartDashboard.putNumber("LeftDistanceRemaining", getLeftEncoderDistance()-targetLeft);
+    SmartDashboard.putNumber("RightDistanceRemaining",getRightEncoderDistance()-targetRight);
+    }
+    stop();
+  }
+  public void drive1(){
+    drive_straight(12,0.25);
+  }
   //NEED TO SET ALL OF THESE CORRECTLY
   public double getLeftEncoderDistance(){
-    return motor_left.getSelectedSensorPosition()/Constants.ENCODER_TICKS_PER_REVOLUTION/Constants.DRIVE_GEAR_RATIO;
+    return motor_left.getSelectedSensorPosition()/Constants.ENCODER_TICKS_PER_REVOLUTION*Constants.DRIVE_GEAR_RATIO*6;
   }
   public double getRightEncoderDistance(){
-    return motor_right.getSelectedSensorPosition()/Constants.ENCODER_TICKS_PER_REVOLUTION/Constants.DRIVE_GEAR_RATIO;
+    return motor_right.getSelectedSensorPosition()/Constants.ENCODER_TICKS_PER_REVOLUTION*Constants.DRIVE_GEAR_RATIO*6;
   }
   public double getLeftEncoderRate(){
-    return motor_left.getSelectedSensorVelocity()/(Constants.ENCODER_TICKS_PER_REVOLUTION*Constants.DRIVE_GEAR_RATIO);
+    return motor_left.getSelectedSensorVelocity()/Constants.ENCODER_TICKS_PER_REVOLUTION*Constants.DRIVE_GEAR_RATIO;
   }
   public double getRightEncoderRate(){
-    return motor_right.getSelectedSensorVelocity()/(Constants.ENCODER_TICKS_PER_REVOLUTION*Constants.DRIVE_GEAR_RATIO);
+    return motor_right.getSelectedSensorVelocity()/(Constants.ENCODER_TICKS_PER_REVOLUTION/Constants.DRIVE_GEAR_RATIO);
   }
   public double getAvgEncoderRate(){
     return (getLeftEncoderRate()+getRightEncoderRate())/2;
+  }
+  public double getAvgEncoderDistance(){
+    return (getLeftEncoderDistance()+getRightEncoderDistance())/2;
   }
   public void putAcceleration(){
     SmartDashboard.putNumber(  "RawAccel_X",           ahrs.getRawAccelX());
