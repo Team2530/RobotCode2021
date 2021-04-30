@@ -147,6 +147,9 @@ public class RobotContainer {
 
     // Automatically shoots balls
     //new JoystickButton(xbox, 1).whenPressed(() -> new AutoShoot(m_revolver, m_hood));
+
+    // For autonomous testing -- rotates the robot by a certain amount
+    new JoystickButton(stick1, 12).whenPressed(() -> m_driveTrain.autoTurn(90));
   }
 
   /**

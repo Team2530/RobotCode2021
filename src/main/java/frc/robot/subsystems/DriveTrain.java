@@ -132,6 +132,7 @@ public class DriveTrain extends SubsystemBase{
     motor_left.setVoltage(leftOutput + leftFeedforward);
     motor_right.setVoltage(rightOutput + rightFeedforward);
   }
+
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(getLeftEncoderDistance(), getRightEncoderDistance());
   }
@@ -160,9 +161,23 @@ public class DriveTrain extends SubsystemBase{
     SmartDashboard.putNumber(  "Velocity_Y",           ahrs.getVelocityY());
     SmartDashboard.putNumber(  "Velocity_Z",           ahrs.getVelocityZ());
   }
-public void resetOdometry(Pose2d pose) {
-  //resetEncoders();
-    m_odometry.resetPosition(pose, ahrs.getRotation2d());
-}
+
+  public void autoTurn(double deg2Turn) {
+    double startRot = ahrs.getRotation2d().getDegrees();
+    double endRot = startRot + deg2Turn;
+    double currentRot = startRot;
+    double power = Constants.autoDriveMaxTurnSpeed * Constants.autoDriveMinRampTurnSpeed;
+    while (Math.abs(endRot - currentRot) > Constants.autoDriveTurnTolerance) {
+      motor_left.set(-power * Constants.autoDriveMaxTurnSpeed * (endRot - currentRot) / Math.abs(endRot - currentRot));
+      motor_right.set(power * Constants.autoDriveMaxTurnSpeed * (endRot - currentRot) / Math.abs(endRot - currentRot));
+      currentRot = ahrs.getRotation2d().getDegrees();
+      power = Constants.autoDriveMaxTurnSpeed * (Constants.autoDriveMinRampTurnSpeed + 1 - Math.abs(((1 + Constants.autoDriveRampTurnOffset) * deg2Turn / 2) - (currentRot - startRot)) / (deg2Turn / 2));
+    }
+  }
+  
+  public void resetOdometry(Pose2d pose) {
+    //resetEncoders();
+      m_odometry.resetPosition(pose, ahrs.getRotation2d());
+  }
 
 }

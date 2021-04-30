@@ -56,6 +56,10 @@ public final class Constants {
     public static final double kRamseteZeta = 0.7;
     public static final double kMaxSpeed = 2.7;
     public static final double kMaxAngularSpeed = 16*Math.PI;
+    public static final double autoDriveMinRampTurnSpeed = 0.6; //The amount of the max speed to start ramping with autonomous turning, from 0 to 1
+    public static final double autoDriveRampTurnOffset = -0.85; //The amount to shift the peak of the ramping with autonomous turning. -1 moves the peak to the start, 0 leaves it in the middle, and 1 moves the peak to the end
+    public static final double autoDriveMaxTurnSpeed = 0.6; //The maximum speed of autonomous turning, from 0 to 1
+    public static final double autoDriveTurnTolerance = 5; //The acceptable distance from the target angle for autonomous turning, in degrees
     public static final Gains PIDleftDrive = new Gains(0.439, 0, 0, 0, 0, 0);
     public static final Gains PIDrigthDrive = new Gains(0.439, 0, 0, 0, 0, 0);
     public static final Gains motor_Shooter= new Gains(1, 0, 0, 0, 0, 0);
