@@ -20,15 +20,14 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Hood extends SubsystemBase {
   // private static WPI_VictorSPX motor_HorizontalHood = new
   // WPI_VictorSPX(Constants.motor_HorizontalHood_Port);
-  private static Servo servo = new Servo(Constants.servo_shooter_port);
-  public static WPI_TalonFX motor_shooter = new WPI_TalonFX(Constants.motor_shooter_port);
+  private static WPI_TalonSRX motor_hood = new WPI_TalonSRX(Constants.motor_hood_port);
+  public static WPI_TalonFX motor_flywheel = new WPI_TalonFX(Constants.motor_flywheel_port);
   private static WPI_TalonSRX motor_turret = new WPI_TalonSRX(Constants.motor_turret_port);
   private static DigitalInput halleffect = new DigitalInput(Constants.turret_encoder);
   private static Counter turret_counter = new Counter(halleffect);
@@ -46,34 +45,34 @@ public class Hood extends SubsystemBase {
   NetworkTable table;
   int light = 1;
   public double hoodTargetAngle = 0;
-  double servoPos = 0.5;
+  double hoodPos = 0.5;
   boolean targeting = false;
 
   public Hood() {
     /* Factory Default all hardware to prevent unexpected behaviour */
-    motor_shooter.configFactoryDefault();
+    motor_flywheel.configFactoryDefault();
 
     /* Config neutral deadband to be the smallest possible */
-    motor_shooter.configNeutralDeadband(0.001);
+    motor_flywheel.configNeutralDeadband(0.001);
 
     /* Config sensor used for Primary PID [Velocity] */
-    motor_shooter.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, Constants.kPIDLoopIdx,
+    motor_flywheel.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, Constants.kPIDLoopIdx,
         Constants.kTimeoutMs);
 
     /* Config the peak and nominal outputs */
-    motor_shooter.configNominalOutputForward(0, Constants.kTimeoutMs);
-    motor_shooter.configNominalOutputReverse(0, Constants.kTimeoutMs);
-    motor_shooter.configPeakOutputForward(1, Constants.kTimeoutMs);
-    motor_shooter.configPeakOutputReverse(-1, Constants.kTimeoutMs);
+    motor_flywheel.configNominalOutputForward(0, Constants.kTimeoutMs);
+    motor_flywheel.configNominalOutputReverse(0, Constants.kTimeoutMs);
+    motor_flywheel.configPeakOutputForward(1, Constants.kTimeoutMs);
+    motor_flywheel.configPeakOutputReverse(-1, Constants.kTimeoutMs);
 
     /* Config the Velocity closed loop gains in slot0 */
-    motor_shooter.config_kF(Constants.kPIDLoopIdx, Constants.motor_Shooter.kF, Constants.kTimeoutMs);
-    motor_shooter.config_kP(Constants.kPIDLoopIdx, Constants.motor_Shooter.kP, Constants.kTimeoutMs);
-    motor_shooter.config_kI(Constants.kPIDLoopIdx, Constants.motor_Shooter.kI, Constants.kTimeoutMs);
-    motor_shooter.config_kD(Constants.kPIDLoopIdx, Constants.motor_Shooter.kD, Constants.kTimeoutMs);
+    motor_flywheel.config_kF(Constants.kPIDLoopIdx, Constants.motor_Shooter.kF, Constants.kTimeoutMs);
+    motor_flywheel.config_kP(Constants.kPIDLoopIdx, Constants.motor_Shooter.kP, Constants.kTimeoutMs);
+    motor_flywheel.config_kI(Constants.kPIDLoopIdx, Constants.motor_Shooter.kI, Constants.kTimeoutMs);
+    motor_flywheel.config_kD(Constants.kPIDLoopIdx, Constants.motor_Shooter.kD, Constants.kTimeoutMs);
 
     table = NetworkTableInstance.getDefault().getTable("limelight");
-    SmartDashboard.putNumber("Servo pos", servoPos);
+    SmartDashboard.putNumber("Hood pos", hoodPos);
     light = (int)table.getEntry("ledMode").getDouble(0.0);
   }
 
@@ -130,19 +129,19 @@ public class Hood extends SubsystemBase {
     // 52/0.2
     
     double pos = 0.6 - ((angle) / 300);
-    servo.set(pos);
+    motor_hood.set(pos); // TODO: Needs to be replaced with SRX-friendly encoder method
   }
-  public void setServo(double pos){
+  public void setHood(double speed){
 
-    servo.set(pos);
+    motor_hood.set(ControlMode.PercentOutput, speed);
   }
 
   public void flywheelRotateSpeed(double f_speed) {
-    motor_shooter.set(ControlMode.PercentOutput, f_speed);
+    motor_flywheel.set(ControlMode.PercentOutput, f_speed);
   }
 
   public void flywheelSpeedSetPercentOutput(double speed) {
-    motor_shooter.set(ControlMode.PercentOutput, speed);
+    motor_flywheel.set(ControlMode.PercentOutput, speed);
   }
 
   public void setTurretPower(double speed) {

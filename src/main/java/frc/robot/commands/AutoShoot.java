@@ -28,7 +28,7 @@ public class AutoShoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Hood.motor_shooter.getMotorOutputPercent() > 0.9 && !hasRotated) {
+    if (Hood.motor_flywheel.getMotorOutputPercent() > 0.9 && !hasRotated) {
       m_revolver.rotateRevolver(90);
       hasRotated = true;
     }

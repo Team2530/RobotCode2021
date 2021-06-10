@@ -41,22 +41,22 @@ public class ManualAimHood extends CommandBase {
   public void execute() {
     if(stick.getRawButton(7))
     {
-      hood.flywheelSpeedSetPercentOutput(1);
-      hood.setServo(0.55);
+      //hood.flywheelSpeedSetPercentOutput(1);
+      //hood.setHood(0.55);
     }else if(stick.getRawButton(8))
     {
-      hood.flywheelSpeedSetPercentOutput(0.8);
-      hood.setServo(0.55);
+      //hood.flywheelSpeedSetPercentOutput(0.8);
+      //hood.setHood(0.55);
     }else if(stick.getRawButton(9))
     {
-      hood.flywheelSpeedSetPercentOutput(0.8);
-      hood.setServo(0.35);
+      //hood.flywheelSpeedSetPercentOutput(0.8);
+      //hood.setHood(0.35);
     }else if(stick.getRawButton(10))
     {
-      hood.flywheelSpeedSetPercentOutput(0.6);
-      hood.setServo(0.35);
+      //hood.flywheelSpeedSetPercentOutput(0.6);
+      //hood.setHood(0.35);
     }else{
-      hood.flywheelSpeedSetPercentOutput(0);
+      //hood.flywheelSpeedSetPercentOutput(0);
     }
   }
   @Override

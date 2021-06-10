@@ -28,9 +28,9 @@ public final class Constants {
     public static final int motor_left_drive_port = 2;
     public static final int motor_right_drive_port = 1;
     public static final int motor_revolver_port = 5;
-    public static final int motor_shooter_port = 3;
+    public static final int motor_flywheel_port = 3;
     public static final int motor_turret_port = 4;
-    public static final int servo_shooter_port = 0;
+    public static final int motor_hood_port = 6;
     public static final int turret_encoder = 9;
     public enum DriveMotors
     { 
