@@ -50,6 +50,7 @@ public class RobotContainer {
   private final DriveTrain m_driveTrain = new DriveTrain();
   private final Hood m_hood = new Hood();
   private final Revolver m_revolver = new Revolver();
+  private final Intake m_intake = new Intake();
 
   // -------------------- Joysticks and Buttons -------------------- \\
   // Joysticks
@@ -152,6 +153,10 @@ public class RobotContainer {
 
     // For autonomous testing -- rotates the robot by a certain amount
     new JoystickButton(stick1, 12).whenPressed(() -> m_driveTrain.autoTurn(90));
+
+    // Intake control
+    new JoystickButton(stick1, 13).whenPressed(() -> m_intake.setIntakeSpeed(0.5))
+      .whenReleased(() -> m_intake.setIntakeSpeed(0));
   }
 
   /**
