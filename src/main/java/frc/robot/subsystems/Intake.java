@@ -11,6 +11,7 @@ import frc.robot.Constants;
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
   private static WPI_VictorSPX motor_Intake = new WPI_VictorSPX(Constants.motor_intake_port);
+  public boolean autoMode = false;
 
   public Intake() {
 
@@ -24,4 +25,5 @@ public class Intake extends SubsystemBase {
   public void setIntakeSpeed(double speed) {
     motor_Intake.set(speed);
   }
+
 }

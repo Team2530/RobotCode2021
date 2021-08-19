@@ -154,9 +154,14 @@ public class RobotContainer {
     // For autonomous testing -- rotates the robot by a certain amount
     new JoystickButton(stick1, 12).whenPressed(() -> m_driveTrain.autoTurn(90));
 
-    // Intake control
+    // Toggle intake auto mode
+    new JoystickButton(stick1, 14).whenPressed(() -> m_intake.autoMode = true)
+      .whenReleased(() -> m_intake.autoMode = false);
+
+    // Intake control (manual)
     new JoystickButton(stick1, 13).whenPressed(() -> m_intake.setIntakeSpeed(0.5))
       .whenReleased(() -> m_intake.setIntakeSpeed(0));
+
   }
 
   /**
