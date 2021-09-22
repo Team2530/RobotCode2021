@@ -95,6 +95,9 @@ public class DriveTrain extends SubsystemBase{
   public void singleJoystickDrive(double x, double z){
     differentialDrive.arcadeDrive(x, z);
   }
+  public void dualJoystickDrive(double left, double right) {
+    differentialDrive.tankDrive(left, right);
+  }
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     motor_left.setVoltage(leftVolts);
     motor_right.setVoltage(-rightVolts);

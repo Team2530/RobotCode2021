@@ -206,7 +206,13 @@ public class RobotContainer {
   }
 
   public Command getTelopCommand() {
-    return new ParallelCommandGroup(new ManualAimHood(stick1,m_hood,m_revolver), new SingleJoystickDrive(m_driveTrain,stick1));
+    // Detects if the stick is connected to the driver station and doesn't have
+    // the throttle switch turned down
+    if (stick2.getThrottle() > 0.5) {
+      return new ParallelCommandGroup(new ManualAimHood(stick1,m_hood,m_revolver), new DualJoystickDrive(m_driveTrain, stick1, stick2));
+    } else {
+      return new ParallelCommandGroup(new ManualAimHood(stick1, m_hood, m_revolver), new SingleJoystickDrive(m_driveTrain, stick1));
+    }
   }
 
 }
