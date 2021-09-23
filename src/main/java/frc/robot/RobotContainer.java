@@ -34,6 +34,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -208,7 +209,8 @@ public class RobotContainer {
   public Command getTelopCommand() {
     // Detects if the stick is connected to the driver station and doesn't have
     // the throttle switch turned down
-    if (stick2.getThrottle() > 0.5) {
+    SmartDashboard.putString("stick2Throttle", String.valueOf(stick2.getThrottle()));
+    if (false) { // Toggles dual joystick
       return new ParallelCommandGroup(new ManualAimHood(stick1,m_hood,m_revolver), new DualJoystickDrive(m_driveTrain, stick1, stick2));
     } else {
       return new ParallelCommandGroup(new ManualAimHood(stick1, m_hood, m_revolver), new SingleJoystickDrive(m_driveTrain, stick1));
