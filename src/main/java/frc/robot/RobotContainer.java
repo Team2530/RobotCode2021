@@ -7,34 +7,19 @@
 
 package frc.robot;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.List;
-
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandGroupBase;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -59,7 +44,8 @@ public class RobotContainer {
   final Joystick stick2 = new Joystick(2); // Creates a joystick on port 2
 
   // Joystick buttons
-  // private final JoystickButton Button1 = new JoystickButton(stick1, 1); // Creates a new button for button 1 on stick1
+  // private final JoystickButton Button1 = new JoystickButton(stick1, 1); //
+  // Creates a new button for button 1 on stick1
   // private final JoystickButton Button2 = new JoystickButton(stick1, 2);
   // private final JoystickButton Button3 = new JoystickButton(stick1, 3);
   // private final JoystickButton Button4 = new JoystickButton(stick1, 4);
@@ -95,7 +81,8 @@ public class RobotContainer {
   // private final SmallJoystickElevator elevatorCommand = new
   // SmallJoystickElevator(elevatorSub, stick1);
   // private final EncoderTest m_telopCommand = new EncoderTest(m_driveTrain);
-  //private final TurnRevolver turnRevolver = new TurnRevolver(m_revolver,stick1);
+  // private final TurnRevolver turnRevolver = new
+  // TurnRevolver(m_revolver,stick1);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -112,15 +99,16 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // Button2.whenPressed(new AimHood(m_hood, 1)); //TODO Figure out what buttons we want to use for hood movement
+    // Button2.whenPressed(new AimHood(m_hood, 1)); //TODO: Figure out what buttons
+    // we want to use for hood movement
     // Button3.whenPressed(new AimHood(m_hood, -1));
-    new  JoystickButton(stick1, 1).whenPressed(() -> m_hood.flywheelSpeedSetPercentOutput(1))
-    .whenReleased(() -> m_hood.flywheelSpeedSetPercentOutput(0));
+    new JoystickButton(stick1, 1).whenPressed(() -> m_hood.flywheelRotateSpeed(1))
+        .whenReleased(() -> m_hood.flywheelRotateSpeed(0));
     // new JoystickButton(stick1, 3)
-    // .whenPressed(() -> m_hood.flywheelSpeedSetPercentOutput(0.9))
+    // .whenPressed(() -> m_hood.flywheelRotateSpeed(0.9))
     // .whenReleased(() -> m_hood.setHoodPosition(0));
     // new JoystickButton(stick1, 4)
-    // .whenPressed(() -> m_hood.flywheelSpeedSetPercentOutput(0.9))
+    // .whenPressed(() -> m_hood.flywheelRotateSpeed(0.9))
     // .whenReleased(() -> m_hood.setHoodPosition(0));
 
     // Rotates the revolver 90 degrees
@@ -133,7 +121,7 @@ public class RobotContainer {
     // Manually rotates the revolver in the negative direction
     new JoystickButton(stick1, 3).whenPressed(() -> m_revolver.setRevolverSpeed(-0.25))
         .whenReleased(() -> m_revolver.setRevolverSpeed(0));
-    
+
     // Manually moves hood to specific angles
     // new JoystickButton(stick1, 7).whileHeld(() -> m_hood.setServo(0.55));
     // new JoystickButton(stick1, 8).whileHeld(() -> m_hood.setServo(0.5));
@@ -150,14 +138,15 @@ public class RobotContainer {
     new JoystickButton(stick1, 6).whenPressed(() -> m_hood.toggleLight());
 
     // Automatically shoots balls
-    //new JoystickButton(xbox, 1).whenPressed(() -> new AutoShoot(m_revolver, m_hood));
+    // new JoystickButton(xbox, 1).whenPressed(() -> new AutoShoot(m_revolver,
+    // m_hood));
 
     // For autonomous testing -- rotates the robot by a certain amount
     new JoystickButton(stick1, 12).whenPressed(() -> m_driveTrain.autoTurn(90));
 
     // Intake control
     new JoystickButton(stick1, 13).whenPressed(() -> m_intake.setIntakeSpeed(0.5))
-      .whenReleased(() -> m_intake.setIntakeSpeed(0));
+        .whenReleased(() -> m_intake.setIntakeSpeed(0));
   }
 
   /**
@@ -167,37 +156,25 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand(Trajectory trajectory) {
     // Create a voltage constraint to ensure we don't accelerate too fast
-    var autoVoltageConstraint =
-        new DifferentialDriveVoltageConstraint(
-           m_driveTrain.m_feedforward,
-            m_driveTrain.m_kinematics,
-            10);
+    var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(m_driveTrain.m_feedforward,
+        m_driveTrain.m_kinematics, 10);
 
     // Create config for trajectory
-    TrajectoryConfig config =
-        new TrajectoryConfig(
-                Constants.maxVelocityMetersPerSecond,
-                Constants.maxAccelerationMetersPerSecondSq)
+    TrajectoryConfig config = new TrajectoryConfig(Constants.maxVelocityMetersPerSecond,
+        Constants.maxAccelerationMetersPerSecondSq)
             // Add kinematics to ensure max speed is actually obeyed
             .setKinematics(m_driveTrain.m_kinematics)
             // Apply the voltage constraint
             .addConstraint(autoVoltageConstraint);
-    //Slalom.path
-    // An example trajectory to follow.  All units in meters.
+    // Slalom.path
+    // An example trajectory to follow. All units in meters.
 
-    RamseteCommand ramseteCommand =
-        new RamseteCommand(
-            trajectory,
-            m_driveTrain::getPose,
-            new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-            m_driveTrain.m_feedforward,
-            m_driveTrain.m_kinematics,
-            m_driveTrain::getWheelSpeeds,
-            m_driveTrain.m_leftPIDController,
-            m_driveTrain.m_rightPIDController,
-            // RamseteCommand passes volts to the callback
-            m_driveTrain::tankDriveVolts,
-            m_driveTrain);
+    RamseteCommand ramseteCommand = new RamseteCommand(trajectory, m_driveTrain::getPose,
+        new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta), m_driveTrain.m_feedforward,
+        m_driveTrain.m_kinematics, m_driveTrain::getWheelSpeeds, m_driveTrain.m_leftPIDController,
+        m_driveTrain.m_rightPIDController,
+        // RamseteCommand passes volts to the callback
+        m_driveTrain::tankDriveVolts, m_driveTrain);
 
     // Reset odometry to the starting pose of the trajectory.
     m_driveTrain.resetOdometry(trajectory.getInitialPose());
@@ -207,13 +184,13 @@ public class RobotContainer {
   }
 
   public Command getTelopCommand() {
-    // Detects if the stick is connected to the driver station and doesn't have
-    // the throttle switch turned down
-    SmartDashboard.putString("stick2Throttle", String.valueOf(stick2.getThrottle()));
-    if (false) { // Toggles dual joystick
-      return new ParallelCommandGroup(new ManualAimHood(stick1,m_hood,m_revolver), new DualJoystickDrive(m_driveTrain, stick1, stick2));
+    // Toggles dual joystick, should be replaced with an actual check in the future
+    if (false) {
+      return new ParallelCommandGroup(new ManualAimHood(stick1, m_hood, m_revolver),
+          new DualJoystickDrive(m_driveTrain, stick1, stick2));
     } else {
-      return new ParallelCommandGroup(new ManualAimHood(stick1, m_hood, m_revolver), new SingleJoystickDrive(m_driveTrain, stick1));
+      return new ParallelCommandGroup(new ManualAimHood(stick1, m_hood, m_revolver),
+          new SingleJoystickDrive(m_driveTrain, stick1));
     }
   }
 

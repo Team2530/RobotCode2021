@@ -13,6 +13,7 @@ public class AimHood extends CommandBase {
 
   /** Creates a new TurnHood. */
   Hood m_hood;
+
   public AimHood(Hood m_hood, double vertical) {
     this.m_hood = m_hood;
     this.vertical = vertical;
@@ -27,7 +28,6 @@ public class AimHood extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
 
   }
 

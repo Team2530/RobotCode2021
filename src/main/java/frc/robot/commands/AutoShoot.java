@@ -12,6 +12,7 @@ public class AutoShoot extends CommandBase {
   /** Creates a new AutoShoot. */
   Revolver m_revolver;
   Hood m_hood;
+
   public AutoShoot(Revolver m_revolver, Hood m_hood) {
     this.m_revolver = m_revolver;
     this.m_hood = m_hood;
@@ -22,7 +23,7 @@ public class AutoShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_hood.flywheelSpeedSetPercentOutput(1);
+    m_hood.flywheelRotateSpeed(1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -37,7 +38,7 @@ public class AutoShoot extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_hood.flywheelSpeedSetPercentOutput(0);
+    m_hood.flywheelRotateSpeed(0);
     m_revolver.setRevolverSpeed(0);
   }
 

@@ -17,6 +17,7 @@ public class DualJoystickDrive extends CommandBase {
    */
   DriveTrain m_drivetrain;
   Joystick stick1, stick2;
+
   public DualJoystickDrive(DriveTrain m_drivetrain, Joystick stick1, Joystick stick2) {
     this.m_drivetrain = m_drivetrain;
     this.stick1 = stick1;
@@ -33,7 +34,7 @@ public class DualJoystickDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drivetrain.dualJoystickDrive(stick1.getZ(), stick2.getZ());
+    m_drivetrain.dualJoystickDrive(stick1.getX(), stick2.getX());
   }
 
   // Called once the command ends or is interrupted.

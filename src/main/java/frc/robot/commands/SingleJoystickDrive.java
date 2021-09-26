@@ -17,7 +17,8 @@ public class SingleJoystickDrive extends CommandBase {
    */
   DriveTrain m_drivetrain;
   Joystick stick;
-  public SingleJoystickDrive(DriveTrain m_drivetrain,Joystick stick) {
+
+  public SingleJoystickDrive(DriveTrain m_drivetrain, Joystick stick) {
     this.m_drivetrain = m_drivetrain;
     this.stick = stick;
     // Use addRequirements() here to declare subsystem dependencies.
