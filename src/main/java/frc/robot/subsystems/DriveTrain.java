@@ -103,7 +103,6 @@ public class DriveTrain extends SubsystemBase{
   public void singleJoystickDrivePID(double x, double z){
     var wheelSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(m_speedLimiter.calculate(x) * Constants.kMaxSpeed, 0.0, m_rotLimiter.calculate(z* Constants.kMaxAngularSpeed)));
     SmartDashboard.putString("wheelSpeed",wheelSpeeds.toString());
-    setSpeeds(wheelSpeeds);
   }
   public void stop(){
     differentialDrive.stopMotor();
