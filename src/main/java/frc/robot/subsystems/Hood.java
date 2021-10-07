@@ -38,6 +38,7 @@ public class Hood extends SubsystemBase {
   double ta;
   NetworkTable table;
   int light = 1;
+  int camMode = 0;
   public double hoodTargetAngle = 0;
   double hoodPos = 0.5;
   boolean targeting = false;
@@ -69,6 +70,7 @@ public class Hood extends SubsystemBase {
     table = NetworkTableInstance.getDefault().getTable("limelight");
     SmartDashboard.putNumber("Hood pos", hoodPos);
     light = (int) table.getEntry("ledMode").getDouble(0.0);
+    camMode = (int) table.getEntry("camMode").getDouble(0.0);
   }
 
   @Override
@@ -98,6 +100,7 @@ public class Hood extends SubsystemBase {
     ta = table.getEntry("ta").getDouble(0.0);
 
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(light);
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(camMode);
     SmartDashboard.putNumber("tx", tx);
 
     // moveHoodToAngle(ty);
@@ -159,7 +162,6 @@ public class Hood extends SubsystemBase {
   /**
    * Switches the setting of the Limelight LEDs.
    */
-  // TODO: Fix
   public void toggleLight() {
     switch (light) {
     case 1:
@@ -170,6 +172,20 @@ public class Hood extends SubsystemBase {
       break;
     default:
       light = 3;
+      break;
+    }
+
+  }
+  public void toggleCamMode() {
+    switch (camMode) {
+    case 0:
+      camMode = 1;
+      break;
+    case 1:
+      camMode = 0;
+      break;
+    default:
+      camMode = 0;
       break;
     }
 

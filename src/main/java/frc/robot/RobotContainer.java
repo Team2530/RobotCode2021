@@ -123,26 +123,29 @@ public class RobotContainer {
         .whenReleased(() -> m_revolver.setRevolverSpeed(0));
 
     // Manually moves hood to specific angles
-    // new JoystickButton(stick1, 7).whileHeld(() -> m_hood.setServo(0.55));
-    // new JoystickButton(stick1, 8).whileHeld(() -> m_hood.setServo(0.5));
     new JoystickButton(stick1, 9).whileHeld(() -> m_hood.setHood(-1));
     new JoystickButton(stick1, 9).whenReleased(() -> m_hood.setHood(0));
     new JoystickButton(stick1, 10).whileHeld(() -> m_hood.setHood(1));
     new JoystickButton(stick1, 10).whenReleased(() -> m_hood.setHood(0));
-    new JoystickButton(stick1, 11).whenPressed(() -> m_hood.moveHoodToAngle(20));
-    new JoystickButton(stick1, 12).whenPressed(() -> m_hood.moveHoodToAngle(25));
+    new JoystickButton(stick1, 7).whileHeld(() -> m_hood.setTurretPower(1));
+    new JoystickButton(stick1, 7).whenReleased(() -> m_hood.setTurretPower(0));
+    new JoystickButton(stick1, 8).whileHeld(() -> m_hood.setTurretPower(-1));
+    new JoystickButton(stick1, 8).whenReleased(() -> m_hood.setTurretPower(0));
 
     new JoystickButton(stick1, 4).whenPressed(() -> m_hood.toggleAim());
 
+    // Toggles the LimeLight camera mode (aiming to drive cam)
+    new JoystickButton(stick1, 5).whenPressed(() -> m_hood.toggleCamMode());
     // Toggles the LimeLight LEDs (useful for not blinding people)
     new JoystickButton(stick1, 6).whenPressed(() -> m_hood.toggleLight());
+   
 
     // Automatically shoots balls
     // new JoystickButton(xbox, 1).whenPressed(() -> new AutoShoot(m_revolver,
     // m_hood));
 
     // For autonomous testing -- rotates the robot by a certain amount
-    new JoystickButton(stick1, 12).whenPressed(() -> m_driveTrain.autoTurn(90));
+    //new JoystickButton(stick1, 12).whenPressed(() -> m_driveTrain.autoTurn(90));
 
     // Intake control
     new JoystickButton(stick1, 13).whenPressed(() -> m_intake.setIntakeSpeed(0.5))
