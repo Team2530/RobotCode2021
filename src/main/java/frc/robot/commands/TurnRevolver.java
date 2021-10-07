@@ -7,9 +7,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Revolver;
 
-public class TurnRevolver extends CommandBase{
+public class TurnRevolver extends CommandBase {
   /** Creates a new TurnRevolver. */
   Revolver m_revolver;
+
   public TurnRevolver(Revolver m_revolver) {
     this.m_revolver = m_revolver;
 
@@ -25,8 +26,8 @@ public class TurnRevolver extends CommandBase{
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
-
+  public void execute() {
+  }
 
   // Returns true when the command should end.
   @Override

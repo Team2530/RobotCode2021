@@ -9,7 +9,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Revolver;
 
@@ -39,30 +38,28 @@ public class ManualAimHood extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(stick.getRawButton(7))
-    {
-      //hood.flywheelSpeedSetPercentOutput(1);
-      //hood.setHood(0.55);
-    }else if(stick.getRawButton(8))
-    {
-      //hood.flywheelSpeedSetPercentOutput(0.8);
-      //hood.setHood(0.55);
-    }else if(stick.getRawButton(9))
-    {
-      //hood.flywheelSpeedSetPercentOutput(0.8);
-      //hood.setHood(0.35);
-    }else if(stick.getRawButton(10))
-    {
-      //hood.flywheelSpeedSetPercentOutput(0.6);
-      //hood.setHood(0.35);
-    }else{
-      //hood.flywheelSpeedSetPercentOutput(0);
+    if (stick.getRawButton(7)) {
+      // hood.flywheelSpeedSetPercentOutput(1);
+      // hood.setHood(0.55);
+    } else if (stick.getRawButton(8)) {
+      // hood.flywheelSpeedSetPercentOutput(0.8);
+      // hood.setHood(0.55);
+    } else if (stick.getRawButton(9)) {
+      // hood.flywheelSpeedSetPercentOutput(0.8);
+      // hood.setHood(0.35);
+    } else if (stick.getRawButton(10)) {
+      // hood.flywheelSpeedSetPercentOutput(0.6);
+      // hood.setHood(0.35);
+    } else {
+      // hood.flywheelSpeedSetPercentOutput(0);
     }
   }
+
   @Override
   public void end(boolean interrupted) {
-    hood.flywheelSpeedSetPercentOutput(0);
+    hood.flywheelRotateSpeed(0);
   }
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {

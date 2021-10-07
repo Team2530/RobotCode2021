@@ -6,31 +6,25 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 
-import java.security.KeyStore.TrustedCertificateEntry;
-import java.util.ResourceBundle.Control;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Counter;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+/**
+ * This is Team2530's Hood class. It handles all things related to the shooter
+ * component of the robot, including the flywheel and horizontal/vertical
+ * aiming.
+ */
 public class Hood extends SubsystemBase {
-  // private static WPI_VictorSPX motor_HorizontalHood = new
-  // WPI_VictorSPX(Constants.motor_HorizontalHood_Port);
   private static WPI_TalonSRX motor_hood = new WPI_TalonSRX(Constants.motor_hood_port);
   public static WPI_TalonFX motor_flywheel = new WPI_TalonFX(Constants.motor_flywheel_port);
   private static WPI_TalonSRX motor_turret = new WPI_TalonSRX(Constants.motor_turret_port);
-  private static DigitalInput halleffect = new DigitalInput(Constants.turret_encoder);
-  private static Counter turret_counter = new Counter(halleffect);
   /** Creates a new Hood. */
   double flywheelSpeed;
   double hoodPosition = 0; // TODO: Make more reliable method of measurement
@@ -48,6 +42,7 @@ public class Hood extends SubsystemBase {
   double hoodPos = 0.5;
   boolean targeting = false;
 
+  /** Creates a new {@link Hood}. */
   public Hood() {
     /* Factory Default all hardware to prevent unexpected behaviour */
     motor_flywheel.configFactoryDefault();
@@ -73,17 +68,11 @@ public class Hood extends SubsystemBase {
 
     table = NetworkTableInstance.getDefault().getTable("limelight");
     SmartDashboard.putNumber("Hood pos", hoodPos);
-    light = (int)table.getEntry("ledMode").getDouble(0.0);
+    light = (int) table.getEntry("ledMode").getDouble(0.0);
   }
 
   @Override
   public void periodic() {
-    // if(motor_turret.get()>0)
-    // turret_counter.set
-    // else if(motor_turret.get()<0)
-    // turret_counter.setReverseDirection(true);
-    // SmartDashboard.putBoolean("Raw Sensor Turret", halleffect.get());
-    // SmartDashboard.putNumber("Turret encoder", turret_counter.get());
     if (targeting) {
       if (tx > 3) {
         motor_turret.set(ControlMode.PercentOutput, -1);
@@ -97,6 +86,7 @@ public class Hood extends SubsystemBase {
     }
     // This method will be called once per scheduler run
 
+    // TODO: Reimplement Limelight hood aiming
     // if (hoodPosition < Constants.MIN_SHOOTING_ANGLE + 1 || hoodPosition >
     // Constants.MAX_SHOOTING_ANGLE - 1 || (hoodPosition > hoodTargetAngle - 1 &&
     // hoodPosition < hoodTargetAngle + 1)) {
@@ -106,16 +96,22 @@ public class Hood extends SubsystemBase {
     tx = table.getEntry("tx").getDouble(0.0);
     ty = table.getEntry("ty").getDouble(0.0);
     ta = table.getEntry("ta").getDouble(0.0);
-    
+
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(light);
     SmartDashboard.putNumber("tx", tx);
 
-    //moveHoodToAngle(ty);
+    // moveHoodToAngle(ty);
   }
-   
-  public void toggleAim(){
+
+  /** Switches the setting for the Limelight aiming mechanism. */
+  public void toggleAim() {
     targeting = !targeting;
   }
+
+  /**
+   * Automatically aims the hood using the Limelight.
+   * @param distance The distance reading from the Limelight.
+   */
   public void autoAimHood(double distance) { // ! everything must stay in meters
     angleCalc = Math.atan((Constants.target_Height - Constants.SHOOTER_HEIGHT) / distance);
     velocityX = flywheelSpeed * Constants.MAX_SHOOTING_VELOCITY * Math.cos(angleCalc);
@@ -125,39 +121,56 @@ public class Hood extends SubsystemBase {
     moveHoodToAngle(Math.atan((2 * Constants.target_Height - aimHeightCalc) / distance));
   }
 
+  /**
+   * Moves the hood vertically to the specified angle.
+   * @param angle The angle, in degrees.
+   */
   public void moveHoodToAngle(double angle) {
     // 52/0.2
-    
+
     double pos = 0.6 - ((angle) / 300);
     motor_hood.set(pos); // TODO: Needs to be replaced with SRX-friendly encoder method
   }
-  public void setHood(double speed){
 
+  /**
+   * Sets the speed and direction of the vertical hood aiming motor.
+   * @param speed Any value from -1.0 to 1.0.
+   */
+  public void setHood(double speed) {
     motor_hood.set(ControlMode.PercentOutput, speed);
   }
 
+  /**
+   * Sets the speed and direction of the flywheel motor.
+   * @param f_speed Any value from -1.0 to 1.0.
+   */
   public void flywheelRotateSpeed(double f_speed) {
     motor_flywheel.set(ControlMode.PercentOutput, f_speed);
   }
 
-  public void flywheelSpeedSetPercentOutput(double speed) {
-    motor_flywheel.set(ControlMode.PercentOutput, speed);
-  }
-
+  /**
+   * Sets the speed and direction of the horizontal hood aiming motor.
+   * @param speed Any value from -1.0 to 1.0.
+   */
   public void setTurretPower(double speed) {
     motor_turret.set(ControlMode.PercentOutput, speed);
   }
-  public void toggleLight(){
-    switch(light){
-      case 1:
-        light = 3;
-        break;
-      case 3:
-        light = 1;
-        break;
-      default:
-        light = 3;
-        break;
+
+  /**
+   * Switches the setting of the Limelight LEDs.
+   */
+  // TODO: Fix
+  public void toggleLight() {
+    switch (light) {
+    case 1:
+      light = 3;
+      break;
+    case 3:
+      light = 1;
+      break;
+    default:
+      light = 3;
+      break;
     }
 
   }

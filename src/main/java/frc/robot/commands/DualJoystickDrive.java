@@ -8,20 +8,20 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 
-public class AssistedJoystickDrive extends CommandBase {
+public class DualJoystickDrive extends CommandBase {
   /**
    * Creates a new SingleJoystickDrive.
    */
   DriveTrain m_drivetrain;
-  Joystick stick;
+  Joystick stick1, stick2;
 
-  public AssistedJoystickDrive(DriveTrain m_drivetrain, Joystick stick) {
+  public DualJoystickDrive(DriveTrain m_drivetrain, Joystick stick1, Joystick stick2) {
     this.m_drivetrain = m_drivetrain;
-    this.stick = stick;
+    this.stick1 = stick1;
+    this.stick2 = stick2;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -34,8 +34,7 @@ public class AssistedJoystickDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putString("TIme", "execute");
-    m_drivetrain.singleJoystickDrivePID(stick.getY(), -stick.getZ());
+    m_drivetrain.dualJoystickDrive(stick1.getX(), stick2.getX());
   }
 
   // Called once the command ends or is interrupted.
