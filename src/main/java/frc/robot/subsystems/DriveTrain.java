@@ -206,4 +206,8 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("Velocity_Z", ahrs.getVelocityZ());
   }
 
+  public void driveStraight(double power) {
+    motor_left.set(power);
+    motor_right.set(power);
+  }
 }

@@ -102,7 +102,7 @@ public class RobotContainer {
     // Button2.whenPressed(new AimHood(m_hood, 1)); //TODO: Figure out what buttons
     // we want to use for hood movement
     // Button3.whenPressed(new AimHood(m_hood, -1));
-    new JoystickButton(stick1, 1).whenPressed(() -> m_hood.flywheelRotateSpeed(1))
+    new JoystickButton(stick1, 12).whenPressed(() -> m_hood.flywheelRotateSpeed(1))
         .whenReleased(() -> m_hood.flywheelRotateSpeed(0));
     // new JoystickButton(stick1, 3)
     // .whenPressed(() -> m_hood.flywheelRotateSpeed(0.9))
@@ -138,18 +138,20 @@ public class RobotContainer {
     new JoystickButton(stick1, 5).whenPressed(() -> m_hood.toggleCamMode());
     // Toggles the LimeLight LEDs (useful for not blinding people)
     new JoystickButton(stick1, 6).whenPressed(() -> m_hood.toggleLight());
-   
 
     // Automatically shoots balls
     // new JoystickButton(xbox, 1).whenPressed(() -> new AutoShoot(m_revolver,
     // m_hood));
 
     // For autonomous testing -- rotates the robot by a certain amount
-    //new JoystickButton(stick1, 12).whenPressed(() -> m_driveTrain.autoTurn(90));
+    // new JoystickButton(stick1, 12).whenPressed(() -> m_driveTrain.autoTurn(90));
 
     // Intake control
     new JoystickButton(stick1, 13).whenPressed(() -> m_intake.setIntakeSpeed(0.5))
         .whenReleased(() -> m_intake.setIntakeSpeed(0));
+
+    new JoystickButton(stick1, 1).whenPressed(() -> m_driveTrain.driveStraight(0.5))
+        .whenReleased(() -> m_driveTrain.driveStraight(0));
   }
 
   /**
