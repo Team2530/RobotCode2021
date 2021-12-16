@@ -52,6 +52,8 @@ public class DriveTrain extends SubsystemBase {
   private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(0.125);
   private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(2);
 
+  private boolean drivingStraight = false;
+
   /**
    * Creates a new {@link DriveTrain}.
    */
@@ -87,7 +89,11 @@ public class DriveTrain extends SubsystemBase {
    * @param z The joystick's vertical "twist". Any value from -1.0 to 1.0.
    */
   public void singleJoystickDrive(double x, double z) {
-    differentialDrive.arcadeDrive(x, z);
+    if (drivingStraight) {
+      differentialDrive.arcadeDrive(x, 0);
+    } else {
+      differentialDrive.arcadeDrive(x, z);
+    }
   }
 
   /**
@@ -206,8 +212,7 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("Velocity_Z", ahrs.getVelocityZ());
   }
 
-  public void driveStraight(double power) {
-    motor_left.set(power);
-    motor_right.set(power);
+  public void setDrivingStraight(boolean drivingStraight) {
+    this.drivingStraight = drivingStraight;
   }
 }
